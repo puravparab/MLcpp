@@ -38,4 +38,6 @@ int main()
 		}
 	}
 	std::cout << "Training Complete" << std::endl;
+
+	std::cout << "Prediction for x = 1.2: " << linear.predict(1.2) << std::endl;
 }

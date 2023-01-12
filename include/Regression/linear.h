@@ -16,6 +16,7 @@ class Linear{
 			{}
 		
 		MatrixXd train();
+		double predict(double x_i);
 };
 
 #endif /* LINEAR_H */

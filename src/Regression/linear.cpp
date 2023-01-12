@@ -12,3 +12,8 @@ MatrixXd Linear::train(){
 	}
 	return y_predict;
 }
+
+double Linear::predict(double x_i){
+	double y_predict = w(0,0) * x_i + b;
+	return y_predict;
+}
