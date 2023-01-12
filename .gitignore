@@ -32,6 +32,9 @@
 *.out
 *.app
 
+# Stack Dump
+*.exe.stackdump
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt

@@ -10,7 +10,7 @@ include_directories(include)
 include_directories(libs)
 
 # specify the path to the source files
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 # specify the path to the test files
 file(GLOB TEST_SOURCES "test/*.cpp")
