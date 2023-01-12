@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # specify the path to the header files
 include_directories(include)
+include_directories(libs)
 
 # specify the path to the source files
 file(GLOB SOURCES "src/*.cpp")
