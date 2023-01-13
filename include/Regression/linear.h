@@ -6,8 +6,8 @@
 using Eigen::MatrixXd;
 
 class Linear{
-	MatrixXd x; // Features
-	MatrixXd w; // Weights
+	MatrixXd x; // Features (n examples, m features)
+	MatrixXd w; // Weights (n rows, 1 column)
 	double b; // Bias
 
 	public:
@@ -16,7 +16,7 @@ class Linear{
 			{}
 		
 		MatrixXd train();
-		double predict(double x_i);
+		double predict(MatrixXd x_i);
 };
 
 #endif /* LINEAR_H */

@@ -30,14 +30,16 @@ int main()
 
 	Linear linear(x_train, weights, bias);
 	MatrixXd y_predict = linear.train();
-
+	
 	for (int i = 0; i < y_train.cols(); i++){
-		std::cout << i + 1 << "th step" << std::endl;
+		std::cout << "Training step #" << i + 1 << std::endl;
 		if (y_train(i,0) != y_predict(i,0)){
 			std::cout << "Training Falied" << std::endl;
 		}
 	}
 	std::cout << "Training Complete" << std::endl;
 
-	std::cout << "Prediction for x = 1.2: " << linear.predict(1.2) << std::endl;
+	MatrixXd x_i(1,1);
+	x_i(0,0) = 1.2;
+	std::cout << "Prediction for x = 1.2: " << linear.predict(x_i) << std::endl;
 }
