@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Eigen3/Eigen/Dense>
 #include <Regression/linear.h>
+#include <Loss/mean_squared_error.h>
 
 using Eigen::MatrixXd;
 
@@ -23,7 +24,7 @@ int main()
 	double bias = 100;
 
 	std::cout << "x_train = " << std::endl << x_train << "\n" << std::endl; 
-	std::cout << "weights = " << std::endl << weights << "\n" << std::endl; 
+	std::cout << "weights = " "[" << weights.transpose() << "]" << "\n" << std::endl; 
 	std::cout << "bias = " << bias << "\n" << std::endl; 
 
 	std::cout << "Creating linear model ... " << std::endl; 
@@ -31,13 +32,17 @@ int main()
 	Linear linear(x_train, weights, bias);
 	MatrixXd y_predict = linear.train();
 	
-	for (int i = 0; i < y_train.cols(); i++){
-		std::cout << "Training step #" << i + 1 << std::endl;
-		if (y_train(i,0) != y_predict(i,0)){
-			std::cout << "Training Falied" << std::endl;
-		}
+	for (int i = 0; i < y_train.rows(); i++){
+		std::cout << "Training example #" << i + 1 << std::endl;
 	}
-	std::cout << "Training Complete" << std::endl;
+	std::cout << "Training Complete." << "\n\n" << 
+	"prediction: [" << y_predict.transpose() << "]" << std::endl <<
+	"training: [" << y_train.transpose() << "]" << std::endl;
+
+	// Loss:
+	MeanSquaredError Loss(y_predict, y_train);
+	double error = Loss.get_error();
+	std::cout << error << std::endl;
 
 	MatrixXd x_i(1,1);
 	x_i(0,0) = 1.2;
