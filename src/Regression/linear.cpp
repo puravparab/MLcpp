@@ -3,6 +3,11 @@
 #include <Regression/linear.h>
 
 MatrixXd Linear::train(){
+	MatrixXd y_predict = predict();
+	return y_predict;
+}
+
+MatrixXd Linear::predict(){
 	MatrixXd y_predict = MatrixXd::Constant(x.rows(), 1, 0);
 	// Iterate through training examples:
 	for (int i = 0; i < x.rows(); i++){

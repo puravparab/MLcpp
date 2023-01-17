@@ -7,6 +7,7 @@ using Eigen::MatrixXd;
 
 class Linear{
 	MatrixXd x; // Features (n examples, m features)
+	MatrixXd y; // Target (n examples, 1 column)
 	MatrixXd w; // Weights (n rows, 1 column)
 	double b; // Bias
 
@@ -16,6 +17,7 @@ class Linear{
 			{}
 		
 		MatrixXd train();
+		MatrixXd predict();
 		double predict(MatrixXd x_i);
 };
 
