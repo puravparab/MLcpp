@@ -24,6 +24,7 @@ double MeanSquaredError::get_error(){
 	return (1.0/(2.0*y_predict.rows())) * error;
 }
 
+// Does not work with multiple features
 double MeanSquaredError::get_derivative_w(){
 	double error = 0;
 	// Iterate through training examples
@@ -36,6 +37,7 @@ double MeanSquaredError::get_derivative_w(){
 	return (1.0/y_predict.rows()) * error;
 }
 
+// Does not work with multiple features
 double MeanSquaredError::get_derivative_b(){
 	double error = 0;
 	// Iterate through training examples

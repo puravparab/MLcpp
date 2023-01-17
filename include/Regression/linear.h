@@ -12,8 +12,8 @@ class Linear{
 	double b; // Bias
 
 	public:
-		Linear(MatrixXd x, MatrixXd weights, double bias)
-			: x(x), w(weights), b(bias)
+		Linear(MatrixXd x, MatrixXd y, MatrixXd weights, double bias)
+			: x(x), y(y), w(weights), b(bias)
 			{}
 		
 		MatrixXd train();
