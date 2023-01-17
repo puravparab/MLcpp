@@ -15,10 +15,11 @@ class SGD{
 		MatrixXd y_predict; // Model Predictions
 		MatrixXd y_train; // Training output
 		MatrixXd x_train; // Training input
+		double learning_rate; // learning rate alpha
 		MeanSquaredError mse;
 	public:
-		SGD(MatrixXd weights, double bias, MatrixXd y_predict, MatrixXd y_train, MatrixXd x_train)
-			: w(weights), b(bias), y_predict(y_predict), y_train(y_train), x_train(x_train), 
+		SGD(MatrixXd weights, double bias, MatrixXd y_predict, MatrixXd y_train, MatrixXd x_train, double learning_rate)
+			: w(weights), b(bias), y_predict(y_predict), y_train(y_train), x_train(x_train), learning_rate(learning_rate),
 				mse(MeanSquaredError(y_predict, y_train, x_train))
 			{}
 

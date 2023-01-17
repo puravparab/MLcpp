@@ -4,7 +4,7 @@
 #include <Loss/mean_squared_error.h>
 #include <Optimizers/sgd.h>
 
-MatrixXd Linear::train(){
+MatrixXd Linear::train(double learning_rate){
 	MatrixXd y_predict = predict();
 	MeanSquaredError mse(y_predict, y, x);
 	double prev_error = std::numeric_limits<double>::infinity();
@@ -19,7 +19,7 @@ MatrixXd Linear::train(){
 		prev_error = current_error;
 
 		// Run Stochastic gradient descent
-		SGD sgd(w, b, y_predict, y, x);
+		SGD sgd(w, b, y_predict, y, x, learning_rate);
 		w(0,0) = sgd.update_weights();
 		b = sgd.update_bias();
 		y_predict = predict();

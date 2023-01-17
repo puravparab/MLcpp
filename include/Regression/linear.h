@@ -16,7 +16,7 @@ class Linear{
 			: x(x), y(y), w(weights), b(bias)
 			{}
 		
-		MatrixXd train();
+		MatrixXd train(double learning_rate);
 		MatrixXd predict();
 		double predict(MatrixXd x_i);
 };

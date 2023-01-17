@@ -19,9 +19,11 @@ int main()
 	y_train(1,0) = 500;
 
 	MatrixXd weights(1,1);
-	weights(0,0) = 300;
+	weights(0,0) = 0;
 
-	double bias = 200;
+	double bias = 0;
+
+	double learning_rate = 0.5;
 
 	std::cout << "x_train = " << std::endl << x_train << "\n" << std::endl; 
 	std::cout << "weights = " "[" << weights.transpose() << "]" << "\n" << std::endl; 
@@ -30,7 +32,7 @@ int main()
 	std::cout << "Creating linear model ... " << std::endl; 
 
 	Linear linear(x_train, y_train, weights, bias);
-	MatrixXd y_predict = linear.train();
+	MatrixXd y_predict = linear.train(learning_rate);
 	
 	std::cout << "\nTraining Complete. \n\n" << 
 	"prediction: [" << y_predict.transpose() << "]" << std::endl <<
