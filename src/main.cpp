@@ -40,7 +40,7 @@ int main()
 	"training: [" << y_train.transpose() << "]" << std::endl;
 
 	// Loss:
-	MeanSquaredError Loss(y_predict, y_train);
+	MeanSquaredError Loss(y_predict, y_train, x_train);
 	double error = Loss.get_error();
 	std::cout << error << std::endl;
 

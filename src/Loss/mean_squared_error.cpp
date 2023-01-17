@@ -23,3 +23,27 @@ double MeanSquaredError::get_error(){
 	}
 	return (1.0/(2.0*y_predict.rows())) * error;
 }
+
+double MeanSquaredError::get_derivative_w(){
+	double error = 0;
+	// Iterate through training examples
+	for (int i = 0; i < y_predict.rows(); i++){
+		// Iterate through features
+		for (int j = 0; j < y_predict.cols(); j++){
+			error += (y_predict(i,j) - y_train(i,j)) * x_train(i,j) ;
+		}
+	}
+	return (1.0/y_predict.rows()) * error;
+}
+
+double MeanSquaredError::get_derivative_b(){
+	double error = 0;
+	// Iterate through training examples
+	for (int i = 0; i < y_predict.rows(); i++){
+		// Iterate through features
+		for (int j = 0; j < y_predict.cols(); j++){
+			error += (y_predict(i,j) - y_train(i,j));
+		}
+	}
+	return (1.0/y_predict.rows()) * error;
+}
