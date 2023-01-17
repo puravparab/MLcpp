@@ -4,15 +4,10 @@
 
 MatrixXd Linear::train(){
 	MatrixXd y_predict = MatrixXd::Constant(x.rows(), 1, 0);
-
 	// Iterate through training examples:
 	for (int i = 0; i < x.rows(); i++){
 		double value = 0;
-		// Iterate through features
-		for (int j = 0; j < x.cols(); j++){
-			value += x(i,j) * w(j,0);
-		}
-		y_predict(i, 0) = value + b;
+		y_predict(i,0) = predict(x.row(i));
 	}
 	return y_predict;
 }

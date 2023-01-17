@@ -19,7 +19,7 @@ int main()
 	y_train(1,0) = 500;
 
 	MatrixXd weights(1,1);
-	weights(0,0) = 200;
+	weights(0,0) = 100;
 
 	double bias = 100;
 
