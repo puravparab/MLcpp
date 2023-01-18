@@ -12,13 +12,6 @@
 */
 
 double MeanSquaredError::get_error(){
-	// double error = 0;
-	// Iterate through predictions
-	// for (int i = 0; i < y_predict.rows(); i++){
-	// 	error += pow((y_predict(i,0) - y_train(i,0)), 2);
-	// }
-	// return (1.0/(2.0*y_predict.rows())) * error;
-
 	MatrixXd y_diff = y_predict - y_train;
 	for (int i = 0; i < y_diff.rows(); i++){
 		y_diff(i,0) = pow(y_diff(i,0), 2);
@@ -29,26 +22,17 @@ double MeanSquaredError::get_error(){
 
 // Does not work with multiple features
 double MeanSquaredError::get_derivative_w(){
-	double error = 0;
-	// Iterate through training examples
-	for (int i = 0; i < y_predict.rows(); i++){
-		// Iterate through features
-		for (int j = 0; j < y_predict.cols(); j++){
-			error += (y_predict(j,0) - y_train(j,0)) * x_train(i,j);
-		}
+	MatrixXd y_diff = y_predict - y_train;
+	for (int i = 0; i < y_diff.rows(); i++){
+		y_diff(i,0) = y_diff(i,0) * x_train(i,0);
 	}
-	return (1.0/y_predict.rows()) * error;
+	MatrixXd error = (y_diff.colwise().sum()) / (1.0 * y_predict.rows());
+	return error(0,0);
 }
 
 // Does not work with multiple features
 double MeanSquaredError::get_derivative_b(){
-	double error = 0;
-	// Iterate through training examples
-	for (int i = 0; i < y_predict.rows(); i++){
-		// Iterate through features
-		for (int j = 0; j < y_predict.cols(); j++){
-			error += (y_predict(j,0) - y_train(j,0));
-		}
-	}
-	return (1.0/y_predict.rows()) * error;
+	MatrixXd y_diff = y_predict - y_train;
+	MatrixXd error = (y_diff.colwise().sum()) / (1.0 * y_predict.rows());
+	return error(0,0);
 }

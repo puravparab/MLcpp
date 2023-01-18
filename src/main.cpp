@@ -17,16 +17,16 @@ int main()
 	y_train << 4.000, 2.320, 3.150, 1.780;
 
 	MatrixXd weights(1,1);
-	weights(0,0) = 5.0;
+	weights << 5.0;
 
 	double bias = 1.0;
-
 	double learning_rate = 0.00001;
 
 	std::cout << "x_train = " << std::endl << x_train << "\n" << std::endl; 
 	std::cout << "y_train = " << std::endl << y_train << "\n" << std::endl; 
 	std::cout << "weights = " "[" << weights.transpose() << "]" << std::endl; 
-	std::cout << "bias = " << bias << "\n" << std::endl; 
+	std::cout << "bias = " << bias << "\n" << std::endl;
+	std::cout << "learning rate = " << learning_rate << "\n" << std::endl; 
 
 	std::cout << "Creating linear model ... " << std::endl; 
 
