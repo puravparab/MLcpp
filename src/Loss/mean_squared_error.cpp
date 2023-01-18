@@ -28,7 +28,7 @@ double MeanSquaredError::get_derivative_w(){
 	for (int i = 0; i < y_predict.rows(); i++){
 		// Iterate through features
 		for (int j = 0; j < y_predict.cols(); j++){
-			error += (y_predict(i,j) - y_train(i,j)) * x_train(i,j) ;
+			error += (y_predict(j,0) - y_train(j,0)) * x_train(i,j);
 		}
 	}
 	return (1.0/y_predict.rows()) * error;
@@ -41,7 +41,7 @@ double MeanSquaredError::get_derivative_b(){
 	for (int i = 0; i < y_predict.rows(); i++){
 		// Iterate through features
 		for (int j = 0; j < y_predict.cols(); j++){
-			error += (y_predict(i,j) - y_train(i,j));
+			error += (y_predict(j,0) - y_train(j,0));
 		}
 	}
 	return (1.0/y_predict.rows()) * error;
