@@ -22,7 +22,7 @@ void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 	while (true){
 		double curr_cost = mse.get_error();
 		// Print out cost at every 1000th iteration
-		if(count % 1000 == 0){
+		if(count % 10000 == 0){
 			std::cout << "Iteration step #" << count << ": "<< curr_cost << std::endl;
 		}
 		

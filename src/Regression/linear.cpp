@@ -3,8 +3,11 @@
 #include <Regression/linear.h>
 #include <Loss/mean_squared_error.h>
 #include <Optimizers/sgd.h>
+#include <chrono>
 
 MatrixXd Linear::train(double learning_rate){
+	// auto initial = std::chrono::high_resolution_clock::now();
+
 	MatrixXd y_predict = predict();
 	SGD sgd(w, b, y_predict, y, x, learning_rate);
 
@@ -20,24 +23,21 @@ MatrixXd Linear::train(double learning_rate){
 	y_predict = predict();
 	delete new_weights;
 	delete new_bias;
+
+	// auto final = std::chrono::high_resolution_clock::now() - initial;
+	// long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(final).count();
+	// std::cout << "Time: " << microseconds / 1e+6 << std::endl;
 	return y_predict;
 }
 
 MatrixXd Linear::predict(){
-	MatrixXd y = MatrixXd::Constant(x.rows(), 1, 0);
-	// Iterate through training examples:
-	for (int i = 0; i < x.rows(); i++){
-		double value = 0;
-		y(i,0) = predict(x.row(i));
-	}
-	return y;
+	MatrixXd y_predict;
+	y_predict = x * w;
+	return y_predict;
 }
 
-double Linear::predict(MatrixXd x_i){
-	double y = 0;
-	for (int i = 0; i < w.rows(); i++){
-		y += w(i,0) * x_i(0,i);
-	}
-	y += b;
-	return y;
+MatrixXd Linear::predict(MatrixXd x_i){
+	MatrixXd y_predict;
+	y_predict = x_i * w;
+	return y_predict;
 }

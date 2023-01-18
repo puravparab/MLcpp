@@ -37,7 +37,7 @@ int main()
 	"prediction: [" << y_predict.transpose() << "]" << std::endl <<
 	"training: [" << y_train.transpose() << "]" << std::endl;
 
-	MatrixXd x_i(1,1);
-	x_i(0,0) = 2;
-	std::cout << "Prediction for x = 1.2: " << linear.predict(x_i) << std::endl;
+	MatrixXd x_i(4,1);
+	x_i << 3.7, 2, 1.2, 1;
+	std::cout << "Prediction for x = 1.2: " << linear.predict(x_i).transpose() << std::endl;
 }

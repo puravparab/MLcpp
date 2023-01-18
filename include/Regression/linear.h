@@ -18,7 +18,7 @@ class Linear{
 		
 		MatrixXd train(double learning_rate);
 		MatrixXd predict();
-		double predict(MatrixXd x_i);
+		MatrixXd predict(MatrixXd x_i);
 };
 
 #endif /* LINEAR_H */
