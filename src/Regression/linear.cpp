@@ -6,39 +6,20 @@
 
 MatrixXd Linear::train(double learning_rate){
 	MatrixXd y_predict = predict();
-	MeanSquaredError mse(y_predict, y, x);
+	SGD sgd(w, b, y_predict, y, x, learning_rate);
 
-	double prev_error = std::numeric_limits<double>::infinity();
-	int count = 0; // Iteration count
+	MatrixXd* new_weights = new MatrixXd(w.rows(),w.cols());
+	double* new_bias = new double;
 
-	while (true){
-		double curr_cost = mse.get_error();
-		// Print out cost at every 1000th iteration
-		if(count % 1000 == 0){
-			std::cout << "Iteration step #" << count << ": "<< curr_cost << std::endl;
-		}
-		
-		// If error is minimized
-		if (curr_cost >= prev_error || curr_cost < 0.05){
-			break;
-		}
-		prev_error = curr_cost;
+	// Run optimizer
+	sgd.optimize(new_weights, new_bias);
 
-		// Run Stochastic gradient descent
-		SGD sgd(w, b, y_predict, y, x, learning_rate);
-
-		w(0,0) = sgd.update_weights(); // Update weights
-		b = sgd.update_bias(); // Update Bias
-		y_predict = predict();
-		
-		count += 1;
-		mse = MeanSquaredError (y_predict, y, x);
-	}
-
-	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
-	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;
-	std::cout << "Bias: " << b << std::endl;
-
+	// Update weight and bias
+	w = *new_weights;
+	b = *new_bias;
+	y_predict = predict();
+	delete new_weights;
+	delete new_bias;
 	return y_predict;
 }
 

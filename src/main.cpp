@@ -25,7 +25,7 @@ int main()
 
 	std::cout << "x_train = " << std::endl << x_train << "\n" << std::endl; 
 	std::cout << "y_train = " << std::endl << y_train << "\n" << std::endl; 
-	std::cout << "weights = " "[" << weights.transpose() << "]" << "\n" << std::endl; 
+	std::cout << "weights = " "[" << weights.transpose() << "]" << std::endl; 
 	std::cout << "bias = " << bias << "\n" << std::endl; 
 
 	std::cout << "Creating linear model ... " << std::endl; 
