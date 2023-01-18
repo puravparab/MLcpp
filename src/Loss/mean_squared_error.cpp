@@ -14,12 +14,9 @@
 
 double MeanSquaredError::get_error(){
 	double error = 0;
-	// Iterate through training examples
+	// Iterate through predictions
 	for (int i = 0; i < y_predict.rows(); i++){
-		// Iterate through features
-		for (int j = 0; j < y_predict.cols(); j++){
-			error += pow((y_predict(i,j) - y_train(i,j)), 2);
-		}
+		error += pow((y_predict(i,0) - y_train(i,0)), 2);
 	}
 	return (1.0/(2.0*y_predict.rows())) * error;
 }
