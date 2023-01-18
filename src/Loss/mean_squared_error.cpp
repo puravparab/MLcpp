@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 #include <Eigen3/Eigen/Dense>
 #include <Loss/mean_squared_error.h>
 
@@ -13,12 +12,19 @@
 */
 
 double MeanSquaredError::get_error(){
-	double error = 0;
+	// double error = 0;
 	// Iterate through predictions
-	for (int i = 0; i < y_predict.rows(); i++){
-		error += pow((y_predict(i,0) - y_train(i,0)), 2);
+	// for (int i = 0; i < y_predict.rows(); i++){
+	// 	error += pow((y_predict(i,0) - y_train(i,0)), 2);
+	// }
+	// return (1.0/(2.0*y_predict.rows())) * error;
+
+	MatrixXd y_diff = y_predict - y_train;
+	for (int i = 0; i < y_diff.rows(); i++){
+		y_diff(i,0) = pow(y_diff(i,0), 2);
 	}
-	return (1.0/(2.0*y_predict.rows())) * error;
+	MatrixXd error = (y_diff.colwise().sum()) / (2.0 * y_predict.rows());
+	return error(0,0);
 }
 
 // Does not work with multiple features

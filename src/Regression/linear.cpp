@@ -32,12 +32,14 @@ MatrixXd Linear::train(double learning_rate){
 
 MatrixXd Linear::predict(){
 	MatrixXd y_predict;
-	y_predict = x * w;
+	MatrixXd b_vec = MatrixXd::Constant(y.rows(), 1, b);
+	y_predict = x * w + b_vec;
 	return y_predict;
 }
 
 MatrixXd Linear::predict(MatrixXd x_i){
 	MatrixXd y_predict;
-	y_predict = x_i * w;
+	MatrixXd b_vec = MatrixXd::Constant(y.rows(), 1, b);
+	y_predict = x_i * w + b_vec;
 	return y_predict;
 }
