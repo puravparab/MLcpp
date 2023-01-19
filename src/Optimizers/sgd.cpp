@@ -4,13 +4,13 @@
 #include <Loss/mean_squared_error.h>
 #include <Optimizers/sgd.h>
 
-double SGD::update_weights(){
-	double w_new = w(0,0) - learning_rate * mse.get_derivative_w();
+MatrixXd SGD::update_weights(){
+	MatrixXd w_new = w - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_w());
 	return w_new;
 }
 
 double SGD::update_bias(){
-	double b_new = b - learning_rate * mse.get_derivative_b();
+	double b_new = b - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_b());
 	return b_new;
 }
 
@@ -27,7 +27,7 @@ void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 		}
 		
 		// If error is minimized
-		if (curr_cost >= prev_error || curr_cost < 0.04){
+		if (curr_cost >= prev_error || curr_cost < 0.03){
 			std::cout << "Iteration step #" << count << ": "<< curr_cost << std::endl;
 			break;
 		}
@@ -36,7 +36,7 @@ void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 		// Run Stochastic gradient descent
 		SGD sgd(w, b, y_predict, y_train, x_train, learning_rate);
 
-		w(0,0) = sgd.update_weights(); // Update weights
+		w = sgd.update_weights(); // Update weights
 		b = sgd.update_bias(); // Update Bias
 		Linear linear(x_train, y_train, w, b);
 		y_predict = linear.predict();

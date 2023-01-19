@@ -15,7 +15,7 @@ class MeanSquaredError{
 			{}
 		
 		double get_error();
-		double get_derivative_w();
+		MatrixXd get_derivative_w();
 		double get_derivative_b();
 };
 

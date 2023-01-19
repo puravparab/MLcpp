@@ -12,27 +12,20 @@
 */
 
 double MeanSquaredError::get_error(){
-	MatrixXd y_diff = y_predict - y_train;
-	for (int i = 0; i < y_diff.rows(); i++){
-		y_diff(i,0) = pow(y_diff(i,0), 2);
-	}
+	Eigen::ArrayXXd y_diff = y_predict - y_train;
+	y_diff = y_diff * y_diff;
 	MatrixXd error = (y_diff.colwise().sum()) / (2.0 * y_predict.rows());
 	return error(0,0);
 }
 
-// Does not work with multiple features
-double MeanSquaredError::get_derivative_w(){
+MatrixXd MeanSquaredError::get_derivative_w(){
 	MatrixXd y_diff = y_predict - y_train;
-	for (int i = 0; i < y_diff.rows(); i++){
-		y_diff(i,0) = y_diff(i,0) * x_train(i,0);
-	}
-	MatrixXd error = (y_diff.colwise().sum()) / (1.0 * y_predict.rows());
-	return error(0,0);
+	MatrixXd derivative_cost = y_diff.transpose() * x_train;
+	return derivative_cost.transpose();
 }
 
-// Does not work with multiple features
 double MeanSquaredError::get_derivative_b(){
 	MatrixXd y_diff = y_predict - y_train;
-	MatrixXd error = (y_diff.colwise().sum()) / (1.0 * y_predict.rows());
+	MatrixXd error = (y_diff.colwise().sum());
 	return error(0,0);
 }
