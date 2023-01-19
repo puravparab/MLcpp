@@ -23,12 +23,12 @@ void BGD::optimize(MatrixXd* new_weights, double* new_bias){
 		double curr_cost = mse.get_error();
 		// Print out cost at every 1000th iteration
 		if(count % 20000 == 0){
-			std::cout << "Iteration step #" << count << ": "<< curr_cost << std::endl;
+			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
 		// If error is minimized
-		if (curr_cost >= prev_error || curr_cost < 0.03){
-			std::cout << "Iteration step #" << count << ": "<< curr_cost << std::endl;
+		if (curr_cost >= prev_error || curr_cost < 0.02){
+			std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
 			break;
 		}
 		prev_error = curr_cost;
