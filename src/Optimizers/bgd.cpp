@@ -2,19 +2,19 @@
 #include <Eigen3/Eigen/Dense>
 #include <Regression/linear.h>
 #include <Loss/mean_squared_error.h>
-#include <Optimizers/sgd.h>
+#include <Optimizers/bgd.h>
 
-MatrixXd SGD::update_weights(){
+MatrixXd BGD::update_weights(){
 	MatrixXd w_new = w - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_w());
 	return w_new;
 }
 
-double SGD::update_bias(){
+double BGD::update_bias(){
 	double b_new = b - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_b());
 	return b_new;
 }
 
-void SGD::optimize(MatrixXd* new_weights, double* new_bias){
+void BGD::optimize(MatrixXd* new_weights, double* new_bias){
 	MeanSquaredError mse(y_predict, y_train, x_train);
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
@@ -34,10 +34,10 @@ void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 		prev_error = curr_cost;
 
 		// Run Stochastic gradient descent
-		SGD sgd(w, b, y_predict, y_train, x_train, learning_rate);
+		BGD bgd(w, b, y_predict, y_train, x_train, learning_rate);
 
-		w = sgd.update_weights(); // Update weights
-		b = sgd.update_bias(); // Update Bias
+		w = bgd.update_weights(); // Update weights
+		b = bgd.update_bias(); // Update Bias
 		Linear linear(x_train, y_train, w, b);
 		y_predict = linear.predict();
 
