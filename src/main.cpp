@@ -6,6 +6,21 @@
 
 using Eigen::MatrixXd;
 
+void display_data(MatrixXd x_train, MatrixXd y_train, 
+	MatrixXd weights, double bias, double learning_rate){
+		std::cout << "\nx_train = " << std::endl << x_train << "\n" << std::endl; 
+		std::cout << "y_train = " << std::endl << y_train << "\n" << std::endl; 
+		std::cout << "weights = " "[" << weights.transpose() << "]" << std::endl; 
+		std::cout << "bias = " << bias << std::endl;
+		std::cout << "learning rate = " << learning_rate << "\n" << std::endl; 
+}
+
+void display_results(MatrixXd y_predict, MatrixXd y_train){
+	std::cout << "\nTraining Complete.\n" << std::endl <<
+	"prediction: [" << y_predict.transpose() << "]" << std::endl <<
+	"training: [" << y_train.transpose() << "]" << std::endl;
+}
+
 int main()
 {
 	std::cout << "Machine Learning library built with C++" << std::endl;
@@ -44,21 +59,14 @@ int main()
 	Normalization normalized(x_train);
 	x_train = normalized.get_x_train();
 	
-	std::cout << "\nx_train = " << std::endl << x_train << "\n" << std::endl; 
-	std::cout << "y_train = " << std::endl << y_train << "\n" << std::endl; 
-	std::cout << "weights = " "[" << weights.transpose() << "]" << std::endl; 
-	std::cout << "bias = " << bias << std::endl;
-	std::cout << "learning rate = " << learning_rate << "\n" << std::endl; 
+	display_data(x_train, y_train, weights, bias, learning_rate);
 
-	std::cout << "Creating linear model ... " << std::endl; 
-
+	std::cout << "Creating Linear model ...."<< std::endl;
 	Linear linear(x_train, y_train, weights, bias);
 	MatrixXd y_predict = linear.train(learning_rate);
-	
-	std::cout << "\nTraining Complete.\n" << std::endl <<
-	"prediction: [" << y_predict.transpose() << "]" << std::endl <<
-	"training: [" << y_train.transpose() << "]" << std::endl;
 
+	display_results(y_predict, y_train);
+	
 	//  Prediction:
 
 	// MatrixXd x_i{
