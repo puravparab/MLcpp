@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Eigen3/Eigen/Dense>
+#include <Dataset/dataset.h>
 #include <Regression/linear.h>
 #include <Loss/mean_squared_error.h>
 #include <Preprocessing/normalization.h>
@@ -25,59 +26,69 @@ int main()
 {
 	std::cout << "Machine Learning library built with C++" << std::endl;
 
-	// // Linear Regression:
-	// MatrixXd x_train(4,1);
-	// x_train << 2.1040, 1.4160, 1.5340, 0.8520;
-	// MatrixXd y_train(4,1);
-	// y_train << 4.000, 2.320, 3.150, 1.780;
-	// MatrixXd weights(1,1);
-	// weights << 5.0;
-	// double bias = 1.0;
-	// double learning_rate = 0.00003;
+	// Univariate Linear Regression:
+	std::string url = ".\\dataset\\test1.csv";
+	Dataset data1(url);
+	MatrixXd x_train = data1.get_x_train();
+	MatrixXd y_train = data1.get_y_train();
+
+	MatrixXd weights(1,1);
+	weights << 560.0;
+	double bias = 10.0;
+	double learning_rate = 2e-5;
+
+	// Normalize Input
+	Normalization normalizedLR(x_train);
+	x_train = normalizedLR.get_x_train();
+
+	display_data(x_train, y_train, weights, bias, learning_rate);
+
+	std::cout << "Creating Linear model ...."<< std::endl;
+	Linear linear1(x_train, y_train, weights, bias);
+	MatrixXd y_predict = linear1.train(learning_rate);
+
+	display_results(y_predict, y_train);
 
 	// Multiple Regression:
-	MatrixXd x_train{
-		{2104, 5, 1, 45},
-		{1415, 3, 2, 40},
-		{852, 2, 1, 35}
-	};
-	MatrixXd y_train{
-		{460},
-		{232},
-		{178}
-	};
-	MatrixXd weights{
+	url = ".\\dataset\\test2.csv";
+	Dataset data2(url);
+	x_train = data2.get_x_train();
+	y_train = data2.get_y_train();
+
+	MatrixXd weights2{
 		{0.39},
 		{18.75},
 		{-53.36},
 		{-26.421}
 	};
-	double bias = 785.18;
-	double learning_rate = 5.0e-5;
+	bias = 785.18;
+	learning_rate = 5.0e-5;
 
 	// Normalize Input
-	Normalization normalized(x_train);
-	x_train = normalized.get_x_train();
+	Normalization normalizedMR(x_train);
+	x_train = normalizedMR.get_x_train();
 	
-	display_data(x_train, y_train, weights, bias, learning_rate);
+	display_data(x_train, y_train, weights2, bias, learning_rate);
 
 	std::cout << "Creating Linear model ...."<< std::endl;
-	Linear linear(x_train, y_train, weights, bias);
-	MatrixXd y_predict = linear.train(learning_rate);
+	Linear linear2(x_train, y_train, weights2, bias);
+	y_predict = linear2.train(learning_rate);
 
 	display_results(y_predict, y_train);
-	
-	//  Prediction:
 
-	// MatrixXd x_i{
-	// 	{2},
-	// 	{1}
-	// };
-	MatrixXd x_i{
+	//  Predictions:
+	MatrixXd x1{
+		{2000},
+		{1000}
+	};
+	MatrixXd x2{
 		{2000, 4, 2, 30},
 		{1000, 2, 1, 35}
 	};
 
-	x_i = normalized.process(x_i);
-	std::cout << "Prediction for x:\n" << linear.predict(x_i) << std::endl;
+	x1 = normalizedLR.process(x1);
+	std::cout << "Prediction for x (Univariate):\n" << linear1.predict(x1) << std::endl;
+
+	x2 = normalizedMR.process(x2);
+	std::cout << "Prediction for x (Muliple LR):\n" << linear2.predict(x2) << std::endl;
 }
