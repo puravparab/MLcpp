@@ -39,6 +39,10 @@ Dataset::Dataset(std::string url){
 		std::cout << "Error: Dataset not valid" << std::endl;
 	}
 
+	std::cout << "Loading dataset ...\n" <<
+	"Rows = " << no_of_rows << std::endl <<
+	"Cols = " << no_of_cols << std::endl;
+
 	// Assign values to x_train and y_train
 	std::ifstream file1(url);
 	MatrixXd x(no_of_rows, no_of_cols - 1);
