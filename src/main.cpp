@@ -44,7 +44,7 @@ int main()
 	display_data(x_train, y_train, weights, bias, learning_rate);
 
 	std::cout << "Creating Linear model ...."<< std::endl;
-	Linear linear1(x_train, y_train, weights, bias);
+	Linear linear1(x_train, y_train, weights, bias, "sgd");
 	MatrixXd y_predict = linear1.train(learning_rate);
 
 	display_results(y_predict, y_train);

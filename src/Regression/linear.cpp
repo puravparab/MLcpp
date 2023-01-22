@@ -8,20 +8,24 @@
 
 MatrixXd Linear::train(double learning_rate){
 	MatrixXd y_predict = predict();
-	BGD bgd(w, b, y_predict, y, x, learning_rate);
+	if (gradient_descent == "bgd"){
+		BGD gd(w, b, y_predict, y, x, learning_rate);
+		gd.optimize();
+		w = gd.get_weight();
+		b = gd.get_bias();
+	}
+	else if (gradient_descent == "sgd"){
+		SGD gd(w, b, y_predict, y, x, learning_rate);
+		gd.optimize();
+		w = gd.get_weight();
+		b = gd.get_bias();
+	}
+	else{
+		std::cout << "Error: specify gradient descent type" << std::endl;
+		exit(0);
+	}
 	
-	MatrixXd* new_weights = new MatrixXd(w.rows(),w.cols());
-	double* new_bias = new double;
-
-	// Run optimizer
-	bgd.optimize(new_weights, new_bias);
-
-	// Update weight and bias
-	w = *new_weights;
-	b = *new_bias;
 	y_predict = predict();
-	delete new_weights;
-	delete new_bias;
 	return y_predict;
 }
 

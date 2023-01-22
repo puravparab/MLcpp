@@ -14,7 +14,15 @@ double SGD::update_bias(){
 	return b_new;
 }
 
-void SGD::optimize(MatrixXd* new_weights, double* new_bias){
+MatrixXd SGD::get_weight(){
+	return w;
+}
+
+double SGD::get_bias(){
+	return b;
+}
+
+void SGD::optimize(){
 	MeanSquaredError mse(y_predict, y_train, x_train);
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
@@ -36,7 +44,7 @@ void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 		// Run Stochastic gradient descent
 		w = update_weights(); // Update weights
 		b = update_bias(); // Update Bias
-		Linear linear(x_train, y_train, w, b);
+		Linear linear(x_train, y_train, w, b, "sgd");
 		y_predict = linear.predict();
 
 		count += 1;
@@ -46,8 +54,4 @@ void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
 	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;
 	std::cout << "Bias: " << b << std::endl;
-
-	// Update weights and bia
-	*new_weights = w;
-	*new_bias = b;
 }

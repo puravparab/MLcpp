@@ -24,7 +24,9 @@ class SGD{
 
 		MatrixXd update_weights();
 		double update_bias();
-		void optimize(MatrixXd* new_weights, double* new_bias);
+		MatrixXd get_weight();
+		double get_bias();
+		void optimize();
 };
 
 #endif // SGD_H
