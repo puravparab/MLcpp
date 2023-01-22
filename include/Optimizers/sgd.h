@@ -22,8 +22,8 @@ class SGD{
 				mse(MeanSquaredError(y_predict, y_train, x_train))
 			{}
 
-		MatrixXd update_weights();
-		double update_bias();
+		MatrixXd update_weights(MatrixXd x, MatrixXd y, MatrixXd y_predict);
+		double update_bias(MatrixXd x, MatrixXd y, MatrixXd y_predict);
 		MatrixXd get_weight();
 		double get_bias();
 		void optimize();
