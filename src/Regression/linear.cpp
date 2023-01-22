@@ -3,6 +3,7 @@
 #include <Regression/linear.h>
 #include <Loss/mean_squared_error.h>
 #include <Optimizers/bgd.h>
+#include <Optimizers/sgd.h>
 #include <chrono>
 
 MatrixXd Linear::train(double learning_rate){

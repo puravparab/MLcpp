@@ -8,7 +8,6 @@
 using Eigen::MatrixXd;
 #include <Loss/mean_squared_error.h>
 
-// Does not work with multiple features
 class BGD{
 		MatrixXd w; // Weights (n rows, 1 column)
 		double b; // Bias

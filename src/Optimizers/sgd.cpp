@@ -2,23 +2,23 @@
 #include <Eigen3/Eigen/Dense>
 #include <Regression/linear.h>
 #include <Loss/mean_squared_error.h>
-#include <Optimizers/bgd.h>
+#include <Optimizers/sgd.h>
 
-MatrixXd BGD::update_weights(){
+MatrixXd SGD::update_weights(){
 	MatrixXd w_new = w - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_w());
 	return w_new;
 }
 
-double BGD::update_bias(){
+double SGD::update_bias(){
 	double b_new = b - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_b());
 	return b_new;
 }
 
-void BGD::optimize(MatrixXd* new_weights, double* new_bias){
+void SGD::optimize(MatrixXd* new_weights, double* new_bias){
 	MeanSquaredError mse(y_predict, y_train, x_train);
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
-	
+
 	while (true){
 		double curr_cost = mse.get_error();
 		// Print out cost at every 1000th iteration
