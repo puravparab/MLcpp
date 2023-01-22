@@ -20,7 +20,6 @@ double SGD::update_bias(MatrixXd x, MatrixXd y, MatrixXd y_predict){
 MatrixXd SGD::get_weight(){
 	return w;
 }
-
 double SGD::get_bias(){
 	return b;
 }
