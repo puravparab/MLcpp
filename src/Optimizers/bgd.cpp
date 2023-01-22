@@ -43,7 +43,7 @@ void BGD::optimize(){
 		// Run Stochastic gradient descent
 		w = update_weights(); // Update weights
 		b = update_bias(); // Update Bias
-		Linear linear(x_train, y_train, w, b, "bgd");
+		Linear linear(x_train, y_train, w, b);
 		y_predict = linear.predict();
 
 		count += 1;

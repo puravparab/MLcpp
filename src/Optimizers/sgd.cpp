@@ -63,7 +63,7 @@ void SGD::optimize(){
 		// Run Stochastic gradient descent and update parameters
 		w = update_weights(x_gd, y_gd, y_predict_gd); // Update weights
 		b = update_bias(x_gd, y_gd, y_predict_gd); // Update Bias
-		Linear linear(x_train, y_train, w, b, "sgd");
+		Linear linear(x_train, y_train, w, b);
 		y_predict = linear.predict();
 
 		count += 1;

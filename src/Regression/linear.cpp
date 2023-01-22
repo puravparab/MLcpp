@@ -6,7 +6,13 @@
 #include <Optimizers/sgd.h>
 #include <chrono>
 
-MatrixXd Linear::train(double learning_rate){
+// Train the linear model:
+// Params:
+// 	1. learning rate (double)
+//	2. gradient_descent (string): "sgd" - stochastic, "bgd"- batch
+// 
+// Returns N x 1 matrix of predictions
+MatrixXd Linear::train(double learning_rate, std::string gradient_descent){
 	MatrixXd y_predict = predict();
 	if (gradient_descent == "bgd"){
 		BGD gd(w, b, y_predict, y, x, learning_rate);

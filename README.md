@@ -22,9 +22,9 @@
 
 # Requirements
 
-C++ version = 14
+C++ version: 14
 
-cmake version = 3.6.2
+cmake version: 3.6.2
 
 ---
 
@@ -42,6 +42,10 @@ Create Makefile
 ```
 cmake .
 ```
+Build executable
+```
+make
+```
 Run program
 ```
 .\MLcpp.exe
@@ -56,6 +60,7 @@ Run program
 Ex: Create a linear regression model to predict home prices using the real_estate.csv dataset.
 
 In src/main.cpp:
+
 Import dataset and training examples
 ```
 std::string url = ".\\dataset\\real_estate.csv";
@@ -78,11 +83,11 @@ double learning_rate = 0.01;
 ```
 Create the linear model with stochastic gradient descent:
 ```
-Linear linear(x_train, y_train, weights, bias, "sgd");
+Linear linear(x_train, y_train, weights, bias);
 ```
 Train linear model:
 ```
-MatrixXd y_predict = linear.train(learning_rate);
+MatrixXd y_predict = linear.train(learning_rate, "sgd");
 ```
 Predict with different values:
 ```

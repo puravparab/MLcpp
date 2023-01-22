@@ -41,8 +41,8 @@ int main()
 	double bias = 0;
 	double learning_rate = 0.01;
 
-	Linear linear(x_train, y_train, weights, bias, "sgd");
-	MatrixXd y_predict = linear.train(learning_rate);
+	Linear linear(x_train, y_train, weights, bias);
+	MatrixXd y_predict = linear.train(learning_rate, "sgd");
 
 	// x1: bedrooms = 5
 	// x2: bathrooms = 3
