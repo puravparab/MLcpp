@@ -17,17 +17,18 @@
 	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 	<a href="#Usage">Usage</a>
 	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-	<a href="#License">RESULTS</a>
+	<a href="#License">License</a>
 </p>
 
 # Requirements
 
 C++ version = 14
+
 cmake version = 3.6.2
 
 ---
 
-#Installation
+# Installation
 
 Clone the repository
 ```
@@ -50,11 +51,11 @@ Run program
 
 # Usage
 
-Linear Regression:
+## Linear Regression:
 
 Ex: Create a linear regression model to predict home prices using the real_estate.csv dataset.
 
-In src/main.cpp function:
+In src/main.cpp:
 Import dataset and training examples
 ```
 std::string url = ".\\dataset\\real_estate.csv";
@@ -62,12 +63,12 @@ Dataset data(url);
 MatrixXd x_train = data.get_x_train();
 MatrixXd y_train = data.get_y_train();
 ```
-Normalize input
+Normalize input:
 ```
 Normalization normalized(x_train);
 x_train = normalized.get_x_train();
 ```
-Add initial weights, bias and learning rate
+Add initial weights, bias and learning rate:
 ```
 MatrixXd weights{
     {0},{0},{0},{0}
@@ -75,15 +76,15 @@ MatrixXd weights{
 double bias = 0;
 double learning_rate = 0.01;
 ```
-Create the linear model with stochastic gradient descent
+Create the linear model with stochastic gradient descent:
 ```
 Linear linear(x_train, y_train, weights, bias, "sgd");
 ```
-Train linear model
+Train linear model:
 ```
 MatrixXd y_predict = linear.train(learning_rate);
 ```
-Predict with different values
+Predict with different values:
 ```
 // x1: bedrooms = 5
 // x2: bathrooms = 3
