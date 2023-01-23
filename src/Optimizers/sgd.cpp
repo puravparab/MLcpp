@@ -30,14 +30,14 @@ void SGD::optimize(){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
 	double epsilon = 1e-1; // Maximum convergence difference
-	int iteration = 2000; // Max iterations allowed
+	int iteration = 900000; // Max iterations allowed
 	int size = 1; // Size of the sample at each iteration
 
 	// Run stochastic gradient descent
 	while (true){
 		double curr_cost = mse.get_error();
 		// Print count at every iterval
-		if(count % 100 == 0){
+		if(count % 10000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		

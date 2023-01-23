@@ -29,7 +29,7 @@ void BGD::optimize(){
 	while (true){
 		double curr_cost = mse.get_error();
 		// Print out cost at every 1000th iteration
-		if(count % 20000 == 0){
+		if(count % 200 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
@@ -43,11 +43,11 @@ void BGD::optimize(){
 		// Run Stochastic gradient descent
 		w = update_weights(); // Update weights
 		b = update_bias(); // Update Bias
-		Linear linear(x_train, y_train, w, b);
-		y_predict = linear.predict();
+		Linear linear(x_test, y_test, w, b);
+		MatrixXd y_predict_test = linear.predict();
 
 		count += 1;
-		mse = MeanSquaredError (y_predict, y_train, x_train);
+		mse = MeanSquaredError (y_predict_test, y_test, x_test);
 	}
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;

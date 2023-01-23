@@ -14,8 +14,10 @@ class SGD{
 	MatrixXd y_predict; // Model Predictions
 	MatrixXd y_train; // Training output
 	MatrixXd x_train; // Training input
+
 	MatrixXd y_test; // Training output
 	MatrixXd x_test; // Training input
+	
 	double learning_rate; // learning rate alpha
 	MeanSquaredError mse;
 	public:

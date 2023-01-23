@@ -26,8 +26,8 @@ int main()
 {
 	std::cout << "MLcpp: Machine Learning library built with C++" << std::endl;
 
-	std::string url = ".\\dataset\\real_estate_large.csv";
-	Dataset data(url, 80);
+	std::string url = ".\\dataset\\real_estate.csv";
+	Dataset data(url, 100);
 	MatrixXd x_train = data.get_x_train();
 	MatrixXd y_train = data.get_y_train();
 	MatrixXd x_test = data.get_x_test();
@@ -39,13 +39,14 @@ int main()
 	x_train = normalized.get_x_train();
 
 	MatrixXd weights{
-		{0},{0},{0}
+		{100},{100},{100},{100}
 	};
 	double bias = 0;
-	double learning_rate = 2e-4;
-
-	Linear linear(x_train, y_train, weights, bias, x_test, y_test);
-	MatrixXd y_predict = linear.train(learning_rate, "sgd");
+	double learning_rate = 4e-4;
+	
+	Linear linear(x_train, y_train, weights, bias);
+	// Linear linear(x_train, y_train, weights, bias, x_test, y_test);
+	MatrixXd y_predict = linear.train(learning_rate, "bgd");
 
 	// x1: bedrooms = 5
 	// x2: bathrooms = 3
@@ -53,7 +54,7 @@ int main()
 	// x4: size of lot (sqft) = 3000
 	// y = price of home (dollars)
 	MatrixXd x{
-		{5, 3, 2400}
+		{5, 3, 2400, 3000}
 	};
 	x = normalized.process(x);
 	std::cout << "Prediction: \n" << linear.predict(x) << " dollars" << std::endl;

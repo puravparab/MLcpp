@@ -17,12 +17,14 @@ class BGD{
 
 		MatrixXd y_test; // Test output
 		MatrixXd x_test; // Test iinput
-		
+
 		double learning_rate; // learning rate alpha
 		MeanSquaredError mse;
 	public:
-		BGD(MatrixXd weights, double bias, MatrixXd y_predict, MatrixXd y_train, MatrixXd x_train, double learning_rate)
-			: w(weights), b(bias), y_predict(y_predict), y_train(y_train), x_train(x_train), learning_rate(learning_rate),
+		BGD(MatrixXd weights, double bias, MatrixXd y_predict, MatrixXd y_train, MatrixXd x_train, 
+			MatrixXd y_test, MatrixXd x_test, double learning_rate)
+			: w(weights), b(bias), y_predict(y_predict), y_train(y_train), x_train(x_train), 
+				y_test(y_test), x_test(x_test), learning_rate(learning_rate),
 				mse(MeanSquaredError(y_predict, y_train, x_train))
 			{}
 
