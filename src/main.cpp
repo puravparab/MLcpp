@@ -27,10 +27,13 @@ int main()
 	std::cout << "MLcpp: Machine Learning library built with C++" << std::endl;
 
 	std::string url = ".\\dataset\\real_estate.csv";
-	Dataset data(url);
+	Dataset data(url, 80);
 	MatrixXd x_train = data.get_x_train();
 	MatrixXd y_train = data.get_y_train();
+	MatrixXd x_test = data.get_x_test();
+	MatrixXd y_test = data.get_y_test();
 
+	std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// Normalize Input
 	Normalization normalized(x_train);
 	x_train = normalized.get_x_train();

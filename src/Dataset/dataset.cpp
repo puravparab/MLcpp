@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
+#include <ctime>
 #include <vector>
 #include <Dataset/dataset.h>
 #include <Eigen3/Eigen/Dense>
@@ -78,10 +80,46 @@ Dataset::Dataset(std::string url){
 	y_train = y;
 }
 
+Dataset::Dataset(std::string url, double split){
+	split = split;
+	Dataset temp(url);
+	MatrixXd x = temp.get_x_train();
+	MatrixXd y = temp.get_y_train();
+
+	int train_rows = floor((split/100) * x.rows()); 
+	int test_rows = x.rows() - train_rows;
+	x_train = MatrixXd(train_rows, x.cols());
+	y_train = MatrixXd(train_rows, y.cols());
+	x_test = MatrixXd(test_rows, x.cols());
+	y_test = MatrixXd(test_rows, y.cols());
+
+	// I'm too lazy to write a better implementation.
+	// Should be okay for large datasets
+	// Ideally you would want unique random numbers
+	srand(time(0));
+	// Assign values to training set
+	for (int i = 0; i < train_rows; i++){
+		int index = rand() % x.rows();
+		x_train.row(i) = x.row(index);
+		y_train.row(i) = y.row(index);
+	}
+	// Assign values to test set
+	for (int i = 0; i < test_rows; i++){
+		int index = rand() % x.rows();
+		x_test.row(i) = x.row(index);
+		y_test.row(i) = y.row(index);
+	}
+}
+
 MatrixXd Dataset::get_x_train(){
 	return x_train;
 }
-
+MatrixXd Dataset::get_x_test(){
+	return x_test;
+}
 MatrixXd Dataset::get_y_train(){
 	return y_train;
+}
+MatrixXd Dataset::get_y_test(){
+	return y_test;
 }
