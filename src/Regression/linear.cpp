@@ -21,7 +21,7 @@ MatrixXd Linear::train(double learning_rate, std::string gradient_descent){
 		b = gd.get_bias();
 	}
 	else if (gradient_descent == "sgd"){
-		SGD gd(w, b, y_predict, y, x, learning_rate);
+		SGD gd(w, b, y_predict, y, x, y_test, x_test, learning_rate);
 		gd.optimize();
 		w = gd.get_weight();
 		b = gd.get_bias();

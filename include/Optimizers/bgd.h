@@ -14,6 +14,10 @@ class BGD{
 		MatrixXd y_predict; // Model Predictions
 		MatrixXd y_train; // Training output
 		MatrixXd x_train; // Training input
+
+		MatrixXd y_test; // Test output
+		MatrixXd x_test; // Test iinput
+		
 		double learning_rate; // learning rate alpha
 		MeanSquaredError mse;
 	public:
