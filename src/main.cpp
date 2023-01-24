@@ -4,6 +4,7 @@
 #include <Regression/linear.h>
 #include <Regression/logistic.h>
 #include <Loss/mean_squared_error.h>
+#include <Loss/binary_cross_entropy.h>
 #include <Preprocessing/normalization.h>
 
 using Eigen::MatrixXd;
@@ -47,8 +48,10 @@ int main()
 	};
 
 	MatrixXd y_predict = logistic.predict();
-
-	std::cout << "Predictions: \n" << y_predict << std::endl; 
+	BinaryCrossEntropy loss(y_predict, y_train, x_train);
+	double error = loss.get_error();
+	std::cout << "Predictions: \n" << y_predict << std::endl <<
+	" with an error of " << error << std::endl; 
 
 	// std::string url = ".\\dataset\\real_estate.csv";
 	// Dataset data(url, 100);
