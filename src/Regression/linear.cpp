@@ -15,13 +15,13 @@ MatrixXd Linear::train(double learning_rate, std::string gradient_descent){
 	MatrixXd y_predict = predict();
 	if (gradient_descent == "bgd"){
 		BGD gd(w, b, y_predict, y, x, y_test, x_test, learning_rate);
-		gd.optimize();
+		gd.optimize("mse");
 		w = gd.get_weight();
 		b = gd.get_bias();
 	}
 	else if (gradient_descent == "sgd"){
 		SGD gd(w, b, y_predict, y, x, y_test, x_test, learning_rate);
-		gd.optimize();
+		gd.optimize("mse");
 		w = gd.get_weight();
 		b = gd.get_bias();
 	}

@@ -32,7 +32,7 @@ class SGD{
 		double update_bias(MatrixXd x, MatrixXd y, MatrixXd y_prediction);
 		MatrixXd get_weight();
 		double get_bias();
-		void optimize();
+		void optimize(std::string error_type);
 };
 
 #endif // SGD_H

@@ -32,7 +32,7 @@ class BGD{
 		double update_bias();
 		MatrixXd get_weight();
 		double get_bias();
-		void optimize();
+		void optimize(std::string error_type);
 };
 
 #endif /* BGD_H */
