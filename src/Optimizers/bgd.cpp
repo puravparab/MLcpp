@@ -6,12 +6,30 @@
 #include <Optimizers/bgd.h>
 
 MatrixXd BGD::update_weights(){
-	MatrixXd w_new = w - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_w());
+	MatrixXd w_new;
+	if (error_type == "mse"){
+		MeanSquaredError mse(y_predict, y_train, x_train);
+		w_new = w - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_w());
+	} 
+	// Using binary cross entropy:
+	else if (error_type == "bce"){
+		BinaryCrossEntropy bce(y_predict, y_train, x_train);
+		w_new = w - (learning_rate * (1.0 / y_predict.rows()) * bce.get_derivative_w());
+	}
 	return w_new;
 }
 
 double BGD::update_bias(){
-	double b_new = b - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_b());
+	double b_new;
+	if (error_type == "mse"){
+		MeanSquaredError mse(y_predict, y_train, x_train);
+		b_new = b - (learning_rate * (1.0 / y_predict.rows()) * mse.get_derivative_b());
+	} 
+	// Using binary cross entropy:
+	else if (error_type == "bce"){
+		BinaryCrossEntropy bce(y_predict, y_train, x_train);
+		b_new = b - (learning_rate * (1.0 / y_predict.rows()) * bce.get_derivative_b());
+	}
 	return b_new;
 }
 
@@ -22,7 +40,7 @@ double BGD::get_bias(){
 	return b;
 }
 
-void BGD::optimize(std::string error_type){
+void BGD::optimize(){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
 	double curr_cost = 0;
@@ -34,6 +52,7 @@ void BGD::optimize(std::string error_type){
 	// Using binary cross entropy:
 	else if (error_type == "bce"){
 		BinaryCrossEntropy bce(y_predict, y_train, x_train);
+		curr_cost = bce.get_error();
 	}
 	while (true){
 		// Print out cost at every 1000th iteration
@@ -63,7 +82,7 @@ void BGD::optimize(std::string error_type){
 		else if (error_type == "bce"){
 			BinaryCrossEntropy bce(y_predict_test, y_test, x_test);
 		}
-		
+
 		count += 1;
 	}
 
