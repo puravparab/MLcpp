@@ -34,24 +34,17 @@ int main()
 	// MatrixXd y_train = data.get_y_train();
 
 	// std::cout << "training examples: " << x_train.rows() << std::endl;
-	// // Normalize Input
 	// MatrixXd weights{
-	// 	{5.28},{5.08}
+	// 	{5},{5}
 	// };
-	// double bias = -14.22;
-	// double learning_rate = 1e-2;
+	// double bias = -14;
+	// double learning_rate = 5e-4;
 
 	// Logistic logistic(x_train, y_train, weights, bias);
-	
-	// MatrixXd x{
-	// 	{}
-	// };
+	// logistic.train(learning_rate, "bgd");
 
 	// MatrixXd y_predict = logistic.predict();
-	// BinaryCrossEntropy loss(y_predict, y_train, x_train);
-	// double error = loss.get_error();
-	// std::cout << "Predictions: \n" << y_predict << std::endl <<
-	// " with an error of " << error << std::endl; 
+	// std::cout << "Predictions: \n" << y_predict << std::endl;
 
 	std::string url = ".\\dataset\\real_estate.csv";
 	Dataset data(url, 100);
@@ -73,7 +66,7 @@ int main()
 	
 	Linear linear(x_train, y_train, weights, bias);
 	// Linear linear(x_train, y_train, weights, bias, x_test, y_test);
-	MatrixXd y_predict = linear.train(learning_rate, "sgd");
+	MatrixXd y_predict = linear.train(learning_rate, "bgd");
 
 	// x1: bedrooms = 5
 	// x2: bathrooms = 3

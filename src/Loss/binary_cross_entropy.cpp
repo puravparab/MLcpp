@@ -15,11 +15,6 @@
 */
 
 double BinaryCrossEntropy::get_error(){
-	// Eigen::ArrayXXd y_diff = y_predict - y_train;
-	// y_diff = y_diff * y_diff;
-	// MatrixXd error = (y_diff.colwise().sum()) / (2.0 * y_predict.rows());
-	// return error(0,0);
-
 	MatrixXd Ones = Eigen::MatrixXd::Ones(y_train.rows(), 1);
 	MatrixXd logOne = y_predict.array().log();
 	MatrixXd logTwo = (Ones - y_predict).array().log();
@@ -39,10 +34,6 @@ MatrixXd BinaryCrossEntropy::get_derivative_w(){
 }
 
 double BinaryCrossEntropy::get_derivative_b(){
-	// MatrixXd y_diff = y_predict - y_train;
-	// MatrixXd error = (y_diff.colwise().sum());
-	// return error(0,0);
-
 	MatrixXd Ones = Eigen::MatrixXd::Ones(y_train.rows(), 1);
 	MatrixXd logOne = y_predict.array().log();
 	MatrixXd logTwo = (Ones - y_predict).array().log();

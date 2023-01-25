@@ -2,6 +2,7 @@
 #include <ctime>
 #include <Eigen3/Eigen/Dense>
 #include <Regression/linear.h>
+#include <Regression/logistic.h>
 #include <Loss/mean_squared_error.h>
 #include <Loss/binary_cross_entropy.h>
 #include <Optimizers/sgd.h>
@@ -92,17 +93,19 @@ void SGD::optimize(){
 		w = update_weights(x_gd, y_gd, y_predict_gd); // Update weights
 		b = update_bias(x_gd, y_gd, y_predict_gd); // Update Bias
 		
-		Linear linear(x_test, y_test, w, b);
-		MatrixXd y_predict_test = linear.predict();
-
 		// Using mean squared error:
 		if (error_type == "mse"){
+			Linear linear(x_test, y_test, w, b);
+			MatrixXd y_predict_test = linear.predict();
 			MeanSquaredError mse(y_predict_test, y_test, x_test);
 			curr_cost = mse.get_error();
 		} 
 		// Using binary cross entropy:
 		else if (error_type == "bce"){
+			Logistic logistic(x_test, y_test, w, b);
+			MatrixXd y_predict_test = logistic.predict();
 			BinaryCrossEntropy bce(y_predict_test, y_test, x_test);
+			curr_cost = bce.get_error();
 		}
 
 		count += 1;

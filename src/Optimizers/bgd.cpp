@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Eigen3/Eigen/Dense>
 #include <Regression/linear.h>
+#include <Regression/logistic.h>
 #include <Loss/mean_squared_error.h>
 #include <Loss/binary_cross_entropy.h>
 #include <Optimizers/bgd.h>
@@ -44,6 +45,8 @@ void BGD::optimize(){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
 	double curr_cost = 0;
+	double epsilon = 1e-5; // Maximum convergence difference
+	int iteration = 100000; // Max iterations allowed
 	// Using mean squared error:
 	if (error_type == "mse"){
 		MeanSquaredError mse(y_predict, y_train, x_train);
@@ -56,12 +59,11 @@ void BGD::optimize(){
 	}
 	while (true){
 		// Print out cost at every 1000th iteration
-		if(count % 200 == 0){
+		if(count % 1000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
-		// If error is minimized
-		if (curr_cost >= prev_error || curr_cost < 0.02){
+		if (abs(prev_error - curr_cost) <= epsilon || count > iteration){
 			std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
 			break;
 		}
@@ -70,17 +72,20 @@ void BGD::optimize(){
 		// Run Stochastic gradient descent
 		w = update_weights(); // Update weights
 		b = update_bias(); // Update Bias
-		Linear linear(x_test, y_test, w, b);
-		MatrixXd y_predict_test = linear.predict();
 
 		// Using mean squared error:
 		if (error_type == "mse"){
+			Linear linear(x_test, y_test, w, b);
+			MatrixXd y_predict_test = linear.predict();
 			MeanSquaredError mse(y_predict_test, y_test, x_test);
 			curr_cost = mse.get_error();
 		} 
 		// Using binary cross entropy:
 		else if (error_type == "bce"){
+			Logistic logistic(x_test, y_test, w, b);
+			MatrixXd y_predict_test = logistic.predict();
 			BinaryCrossEntropy bce(y_predict_test, y_test, x_test);
+			curr_cost = bce.get_error();
 		}
 
 		count += 1;
