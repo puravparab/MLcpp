@@ -46,12 +46,18 @@ int main()
 	// MatrixXd y_predict = logistic.predict();
 	// std::cout << "Predictions: \n" << y_predict << std::endl;
 
+	// Multiple Regression:
 	std::string url = ".\\dataset\\real_estate.csv";
-	Dataset data(url, 100);
-	MatrixXd x_train = data.get_x_train();
-	MatrixXd y_train = data.get_y_train();
-	MatrixXd x_test = data.get_x_test();
-	MatrixXd y_test = data.get_y_test();
+	Dataset dataset(url, 80);
+	MatrixXd train = dataset.get_train();
+	MatrixXd test = dataset.get_test();
+
+	// Get training data
+	MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
+	MatrixXd y_train = train.col(train.cols() - 1);
+	// Get test data
+	MatrixXd x_test = test.block(0, 0, test.rows(), test.cols()-1);
+	MatrixXd y_test = test.col(test.cols()-1);
 
 	std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// Normalize Input
@@ -64,8 +70,8 @@ int main()
 	double bias = 0;
 	double learning_rate = 4e-6;
 	
-	Linear linear(x_train, y_train, weights, bias);
-	// Linear linear(x_train, y_train, weights, bias, x_test, y_test);
+	// Linear linear(x_train, y_train, weights, bias);
+	Linear linear(x_train, y_train, weights, bias, x_test, y_test);
 	MatrixXd y_predict = linear.train(learning_rate, "bgd");
 
 	// x1: bedrooms = 5

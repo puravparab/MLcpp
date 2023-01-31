@@ -7,18 +7,14 @@
 using Eigen::MatrixXd;
 
 class Dataset{
-	MatrixXd x_train;
-	MatrixXd y_train;
-	MatrixXd x_test;
-	MatrixXd y_test;
+	MatrixXd train_data;
+	MatrixXd test_data;
 	double split = 100; // Train/test split
 	public:
 		Dataset(std::string url);
 		Dataset(std::string url, double split);
-		MatrixXd get_x_train();
-		MatrixXd get_x_test();
-		MatrixXd get_y_train();
-		MatrixXd get_y_test();
+		MatrixXd get_train();
+		MatrixXd get_test();
 };
 
 #endif /* DATASET_H */

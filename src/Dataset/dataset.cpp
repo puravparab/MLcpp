@@ -47,8 +47,7 @@ Dataset::Dataset(std::string url){
 
 	// Assign values to x_train and y_train
 	std::ifstream file1(url);
-	MatrixXd x(no_of_rows, no_of_cols - 1);
-	MatrixXd y(no_of_rows, 1);
+	MatrixXd data(no_of_rows, no_of_cols);
 	line = "";
 	value = "";
 	std::vector<std::string> row_vec;
@@ -63,11 +62,7 @@ Dataset::Dataset(std::string url){
 			// Ignore first line
 			if (index > 0){
 				for (int i = 0; i < row_vec.size(); i++){
-					if (i == row_vec.size() - 1){
-						y(index-1, 0) = std::stod(row_vec[i]);
-					} else{
-						x(index-1, i) = std::stod(row_vec[i]);
-					}			
+					data(index-1, i) = std::stod(row_vec[i]);
 				}
 			}
 			index += 1;
@@ -76,50 +71,37 @@ Dataset::Dataset(std::string url){
 		std::cout << "Error: File cannot be found" << std::endl;
 		exit(0);
 	}
-	x_train = x;
-	y_train = y;
+	train_data = data;
 }
 
 Dataset::Dataset(std::string url, double split){
 	split = split;
 	Dataset temp(url);
-	MatrixXd x = temp.get_x_train();
-	MatrixXd y = temp.get_y_train();
+	MatrixXd data = temp.get_train();
 
-	int train_rows = floor((split/100) * x.rows()); 
-	int test_rows = x.rows() - train_rows;
-	x_train = MatrixXd(train_rows, x.cols());
-	y_train = MatrixXd(train_rows, y.cols());
-	x_test = MatrixXd(test_rows, x.cols());
-	y_test = MatrixXd(test_rows, y.cols());
+	int train_rows = floor((split/100) * data.rows()); 
+	int test_rows = data.rows() - train_rows;
+	train_data = MatrixXd(train_rows, data.cols());
+	test_data = MatrixXd(test_rows, data.cols());
 
-	// I'm too lazy to write a better implementation.
 	// Should be okay for large datasets
 	// Ideally you would want unique random numbers
 	srand(time(0));
 	// Assign values to training set
 	for (int i = 0; i < train_rows; i++){
-		int index = rand() % x.rows();
-		x_train.row(i) = x.row(index);
-		y_train.row(i) = y.row(index);
+		int index = rand() % data.rows();
+		train_data.row(i) = data.row(index);
 	}
 	// Assign values to test set
 	for (int i = 0; i < test_rows; i++){
-		int index = rand() % x.rows();
-		x_test.row(i) = x.row(index);
-		y_test.row(i) = y.row(index);
+		int index = rand() % data.rows();
+		test_data.row(i) = data.row(index);
 	}
 }
 
-MatrixXd Dataset::get_x_train(){
-	return x_train;
+MatrixXd Dataset::get_train(){
+	return train_data;
 }
-MatrixXd Dataset::get_x_test(){
-	return x_test;
-}
-MatrixXd Dataset::get_y_train(){
-	return y_train;
-}
-MatrixXd Dataset::get_y_test(){
-	return y_test;
+MatrixXd Dataset::get_test(){
+	return test_data;
 }
