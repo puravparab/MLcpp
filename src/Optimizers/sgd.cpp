@@ -95,16 +95,16 @@ void SGD::optimize(){
 		
 		// Using mean squared error:
 		if (error_type == "mse"){
-			Linear linear(x_test, y_test, w, b);
+			Linear linear(x_train, y_train, w, b);
 			MatrixXd y_predict_test = linear.predict();
-			MeanSquaredError mse(y_predict_test, y_test, x_test);
+			MeanSquaredError mse(y_predict_test, y_train, x_train);
 			curr_cost = mse.get_error();
 		} 
 		// Using binary cross entropy:
 		else if (error_type == "bce"){
-			Logistic logistic(x_test, y_test, w, b);
+			Logistic logistic(x_train, y_train, w, b);
 			MatrixXd y_predict_test = logistic.predict();
-			BinaryCrossEntropy bce(y_predict_test, y_test, x_test);
+			BinaryCrossEntropy bce(y_predict_test, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
 
