@@ -47,3 +47,9 @@ MatrixXd Linear::predict(MatrixXd x_i){
 	y_predict = x_i * w + b_vec;
 	return y_predict;
 }
+
+double Linear::evaluate(MatrixXd x_test, MatrixXd y_test){
+	MatrixXd y_predict = predict(x_test);
+	MeanSquaredError mse(y_predict, y_test, x_test);
+	return mse.get_error();
+}

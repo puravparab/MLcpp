@@ -18,6 +18,7 @@ class Linear{
 		MatrixXd train(double learning_rate, std::string gradient_descent);
 		MatrixXd predict();
 		MatrixXd predict(MatrixXd x_i);
+		double evaluate(MatrixXd x_test, MatrixXd y_test);
 };
 
 #endif /* LINEAR_H */

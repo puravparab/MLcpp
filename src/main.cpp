@@ -73,6 +73,9 @@ int main()
 	Linear linear(x_train, y_train, weights, bias);
 	MatrixXd y_predict = linear.train(learning_rate, "sgd");
 
+	x_test = normalized.process(x_test);
+	std::cout << linear.evaluate(x_test, y_test) << std::endl;
+
 	// x1: bedrooms = 5
 	// x2: bathrooms = 3
 	// x3: size of home (sqft) = 2400
