@@ -45,7 +45,7 @@ void BGD::optimize(){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
 	double curr_cost = 0;
-	double epsilon = 1e-5; // Maximum convergence difference
+	double epsilon = 1e-4; // Maximum convergence difference
 	int iteration = 100000; // Max iterations allowed
 	// Using mean squared error:
 	if (error_type == "mse"){

@@ -55,9 +55,12 @@ int main()
 	// Get training data
 	MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
 	MatrixXd y_train = train.col(train.cols() - 1);
+	y_train = y_train / 1000000; // Scale training target
+
 	// Get test data
 	MatrixXd x_test = test.block(0, 0, test.rows(), test.cols()-1);
 	MatrixXd y_test = test.col(test.cols()-1);
+	y_test = y_test / 1000000; // Scale test target
 
 	std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// Normalize Input
@@ -68,10 +71,10 @@ int main()
 		{100},{100},{100},{100}
 	};
 	double bias = 0;
-	double learning_rate = 4e-6;
+	double learning_rate = 1e-3;
 	
 	Linear linear(x_train, y_train, weights, bias);
-	MatrixXd y_predict = linear.train(learning_rate, "sgd");
+	MatrixXd y_predict = linear.train(learning_rate, "bgd");
 
 	x_test = normalized.process(x_test);
 	std::cout << linear.evaluate(x_test, y_test) << std::endl;
@@ -82,8 +85,8 @@ int main()
 	// x4: size of lot (sqft) = 3000
 	// y = price of home (dollars)
 	MatrixXd x{
-		{5, 3, 2400, 3000}
+		{2, 4, 2400, 3000}
 	};
 	x = normalized.process(x);
-	std::cout << "Prediction: \n" << linear.predict(x) << " dollars" << std::endl;
+	std::cout << "Prediction: \n" << linear.predict(x) * 100000 << " dollars" << std::endl;
 }
