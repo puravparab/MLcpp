@@ -71,10 +71,12 @@ int main()
 		{100},{100},{100},{100}
 	};
 	double bias = 0;
-	double learning_rate = 1e-3;
+	double learning_rate = 6e-2;
+	double epsilon = 1e-8;
+	double iterations = 200000;
 	
 	Linear linear(x_train, y_train, weights, bias);
-	MatrixXd y_predict = linear.train(learning_rate, "bgd");
+	MatrixXd y_predict = linear.train(learning_rate, "sgd", epsilon, iterations);
 
 	x_test = normalized.process(x_test);
 	std::cout << linear.evaluate(x_test, y_test) << std::endl;

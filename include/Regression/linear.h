@@ -15,7 +15,7 @@ class Linear{
 			: x(x), y(y), w(weights), b(bias)
 			{}
 		
-		MatrixXd train(double learning_rate, std::string gradient_descent);
+		MatrixXd train(double learning_rate, std::string gradient_descent, double epsilon, int iteration);
 		MatrixXd predict();
 		MatrixXd predict(MatrixXd x_i);
 		double evaluate(MatrixXd x_test, MatrixXd y_test);

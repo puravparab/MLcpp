@@ -17,11 +17,13 @@ class BGD{
 
 	double learning_rate; // learning rate alpha
 	std::string error_type;
+	double epsilon;
+	int iterations;
 	public:
 		BGD(MatrixXd weights, double bias, MatrixXd y_predict, MatrixXd y_train, MatrixXd x_train, 
-			double learning_rate, std::string error_type)
+			double learning_rate, std::string error_type, double epsilon, int iterations)
 			: w(weights), b(bias), y_predict(y_predict), y_train(y_train), x_train(x_train), 
-				learning_rate(learning_rate), error_type(error_type)
+				learning_rate(learning_rate), error_type(error_type), epsilon(epsilon), iterations(iterations)
 			{}
 
 		MatrixXd update_weights();

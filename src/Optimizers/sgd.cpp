@@ -18,7 +18,6 @@ MatrixXd SGD::update_weights(MatrixXd x, MatrixXd y, MatrixXd y_prediction){
 		BinaryCrossEntropy bce(y_prediction, y, x);
 		w_new = w - (learning_rate * (1.0 / y_predict.rows()) * bce.get_derivative_w());
 	}
-	
 	return w_new;
 }
 
@@ -47,9 +46,6 @@ void SGD::optimize(){
 	srand(time(0));
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
-	double epsilon = 1e-1; // Maximum convergence difference
-	int iteration = 90000; // Max iterations allowed
-	int size = 1; // Size of the sample at each iteration
 
 	double curr_cost = 0;
 	// Using mean squared error:
@@ -66,12 +62,12 @@ void SGD::optimize(){
 	// Run stochastic gradient descent
 	while (true){
 		// Print count at every iterval
-		if(count % 10000 == 0){
+		if(count % 1000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
 		// If error is minimized
-		if (abs(prev_error - curr_cost) <= epsilon || count > iteration){
+		if (abs(prev_error - curr_cost) <= epsilon || count > iterations){
 			std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
 			break;
 		}
@@ -96,15 +92,15 @@ void SGD::optimize(){
 		// Using mean squared error:
 		if (error_type == "mse"){
 			Linear linear(x_train, y_train, w, b);
-			MatrixXd y_predict_test = linear.predict();
-			MeanSquaredError mse(y_predict_test, y_train, x_train);
+			y_predict = linear.predict();
+			MeanSquaredError mse(y_predict, y_train, x_train);
 			curr_cost = mse.get_error();
 		} 
 		// Using binary cross entropy:
 		else if (error_type == "bce"){
 			Logistic logistic(x_train, y_train, w, b);
-			MatrixXd y_predict_test = logistic.predict();
-			BinaryCrossEntropy bce(y_predict_test, y_train, x_train);
+			y_predict = logistic.predict();
+			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
 

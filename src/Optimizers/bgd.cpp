@@ -45,8 +45,6 @@ void BGD::optimize(){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
 	double curr_cost = 0;
-	double epsilon = 1e-4; // Maximum convergence difference
-	int iteration = 100000; // Max iterations allowed
 	// Using mean squared error:
 	if (error_type == "mse"){
 		MeanSquaredError mse(y_predict, y_train, x_train);
@@ -63,8 +61,9 @@ void BGD::optimize(){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
-		if (abs(prev_error - curr_cost) <= epsilon || count > iteration){
-			std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
+		// If error is minimized
+		if (abs(prev_error - curr_cost) <= epsilon || count > iterations){
+			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 			break;
 		}
 		prev_error = curr_cost;
@@ -76,15 +75,15 @@ void BGD::optimize(){
 		// Using mean squared error:
 		if (error_type == "mse"){
 			Linear linear(x_train, y_train, w, b);
-			MatrixXd y_predict_test = linear.predict();
-			MeanSquaredError mse(y_predict_test, y_train, x_train);
+			y_predict = linear.predict();
+			MeanSquaredError mse(y_predict, y_train, x_train);
 			curr_cost = mse.get_error();
 		} 
 		// Using binary cross entropy:
 		else if (error_type == "bce"){
 			Logistic logistic(x_train, y_train, w, b);
-			MatrixXd y_predict_test = logistic.predict();
-			BinaryCrossEntropy bce(y_predict_test, y_train, x_train);
+			y_predict = logistic.predict();
+			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
 
