@@ -60,17 +60,12 @@ void SGD::optimize(){
 	}
 
 	// Run stochastic gradient descent
-	while (true){
+	while (abs(prev_error - curr_cost) > epsilon || count <= iterations){
 		// Print count at every iterval
-		if(count % 1000 == 0){
+		if(count % 10000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
-		// If error is minimized
-		if (abs(prev_error - curr_cost) <= epsilon || count > iterations){
-			std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
-			break;
-		}
 		prev_error = curr_cost;
 
 		// Create matrices for random sample
@@ -103,9 +98,9 @@ void SGD::optimize(){
 			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
-
 		count += 1;
 	}
+	std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
 	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;

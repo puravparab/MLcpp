@@ -72,6 +72,7 @@ Dataset::Dataset(std::string url){
 		exit(0);
 	}
 	train_data = data;
+	test_data = data;
 }
 
 Dataset::Dataset(std::string url, double split){

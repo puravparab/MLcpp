@@ -48,19 +48,20 @@ int main()
 
 	// Multiple Regression:
 	std::string url = ".\\dataset\\real_estate.csv";
-	Dataset dataset(url, 80);
+	Dataset dataset(url);
 	MatrixXd train = dataset.get_train();
 	MatrixXd test = dataset.get_test();
 
+	int scale = 1000000;
 	// Get training data
 	MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
 	MatrixXd y_train = train.col(train.cols() - 1);
-	y_train = y_train / 1000000; // Scale training target
+	y_train = y_train / scale; // Scale training target
 
 	// Get test data
 	MatrixXd x_test = test.block(0, 0, test.rows(), test.cols()-1);
 	MatrixXd y_test = test.col(test.cols()-1);
-	y_test = y_test / 1000000; // Scale test target
+	y_test = y_test / scale; // Scale test target
 
 	std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// Normalize Input
@@ -70,16 +71,23 @@ int main()
 	MatrixXd weights{
 		{100},{100},{100},{100}
 	};
+
 	double bias = 0;
-	double learning_rate = 6e-2;
-	double epsilon = 1e-8;
-	double iterations = 200000;
-	
+	double learning_rate = 2e-2;
+	double epsilon = 1e-5;
+	double iterations = 100000;
 	Linear linear(x_train, y_train, weights, bias);
-	MatrixXd y_predict = linear.train(learning_rate, "sgd", epsilon, iterations);
+	MatrixXd y_predict = linear.train(learning_rate, "bgd", epsilon, iterations);
+
+	// double bias = 0;
+	// double learning_rate = 6e-2;
+	// double epsilon = 1e-8;
+	// double iterations = 200000;
+	// Linear linear(x_train, y_train, weights, bias);
+	// MatrixXd y_predict = linear.train(learning_rate, "sgd", epsilon, iterations);
 
 	x_test = normalized.process(x_test);
-	std::cout << linear.evaluate(x_test, y_test) << std::endl;
+	std::cout << "Test error: " << linear.evaluate(x_test, y_test) << std::endl;
 
 	// x1: bedrooms = 5
 	// x2: bathrooms = 3
@@ -90,5 +98,5 @@ int main()
 		{2, 4, 2400, 3000}
 	};
 	x = normalized.process(x);
-	std::cout << "Prediction: \n" << linear.predict(x) * 100000 << " dollars" << std::endl;
+	std::cout << "Prediction: \n" << linear.predict(x) * scale << " dollars" << std::endl;
 }

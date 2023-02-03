@@ -44,6 +44,7 @@ double BGD::get_bias(){
 void BGD::optimize(){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
+
 	double curr_cost = 0;
 	// Using mean squared error:
 	if (error_type == "mse"){
@@ -55,17 +56,13 @@ void BGD::optimize(){
 		BinaryCrossEntropy bce(y_predict, y_train, x_train);
 		curr_cost = bce.get_error();
 	}
-	while (true){
+
+	while (abs(prev_error - curr_cost) > epsilon || count <= iterations){
 		// Print out cost at every 1000th iteration
 		if(count % 1000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
-		
-		// If error is minimized
-		if (abs(prev_error - curr_cost) <= epsilon || count > iterations){
-			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
-			break;
-		}
+
 		prev_error = curr_cost;
 
 		// Run Stochastic gradient descent
@@ -86,9 +83,9 @@ void BGD::optimize(){
 			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
-
 		count += 1;
 	}
+	std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
 	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;
