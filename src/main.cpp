@@ -79,23 +79,17 @@ int main()
 	Linear linear(x_train, y_train, weights, bias);
 	MatrixXd y_predict = linear.train(learning_rate, "bgd", epsilon, iterations);
 
-	// double bias = 0;
-	// double learning_rate = 6e-2;
-	// double epsilon = 1e-8;
-	// double iterations = 200000;
-	// Linear linear(x_train, y_train, weights, bias);
-	// MatrixXd y_predict = linear.train(learning_rate, "sgd", epsilon, iterations);
-
 	x_test = normalized.process(x_test);
 	std::cout << "Test error: " << linear.evaluate(x_test, y_test) << std::endl;
 
-	// x1: bedrooms = 5
-	// x2: bathrooms = 3
-	// x3: size of home (sqft) = 2400
-	// x4: size of lot (sqft) = 3000
+	// x1: bedrooms
+	// x2: bathrooms
+	// x3: size of home (sqft)
+	// x4: size of lot (sqft)
 	// y = price of home (dollars)
 	MatrixXd x{
-		{2, 4, 2400, 3000}
+		{2, 4, 2400, 3000},
+		{4, 6, 2800, 3200}
 	};
 	x = normalized.process(x);
 	std::cout << "Prediction: \n" << linear.predict(x) * scale << " dollars" << std::endl;

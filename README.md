@@ -65,42 +65,63 @@ Import dataset and training examples
 ```
 std::string url = ".\\dataset\\real_estate.csv";
 Dataset data(url);
-MatrixXd x_train = data.get_x_train();
-MatrixXd y_train = data.get_y_train();
+MatrixXd train = dataset.get_train();
+MatrixXd test = dataset.get_test();
+```
+Split into features and targets
+```
+MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
+MatrixXd y_train = train.col(train.cols() - 1);
+MatrixXd x_test = test.block(0, 0, test.rows(), test.cols()-1);
+MatrixXd y_test = test.col(test.cols()-1);
+```
+Scale targets
+```
+int scale = 1000000;
+y_train = y_train / scale;
+y_test = y_test / scale;
 ```
 Normalize input:
 ```
 Normalization normalized(x_train);
 x_train = normalized.get_x_train();
 ```
-Add initial weights, bias and learning rate:
+Add initial weights, bias, learning rate, epsilon and iterations
 ```
 MatrixXd weights{
     {0},{0},{0},{0}
 };
 double bias = 0;
-double learning_rate = 0.01;
+double learning_rate = 2e-2;
+double epsilon = 1e-5;
+double iterations = 100000;
 ```
-Create the linear model with stochastic gradient descent:
+Create the linear model with batch gradient descent:
 ```
 Linear linear(x_train, y_train, weights, bias);
 ```
 Train linear model:
 ```
-MatrixXd y_predict = linear.train(learning_rate, "sgd");
+MatrixXd y_predict = linear.train(learning_rate, "bgd", epsilon, iterations);
+```
+Evaluate trained model with test data
+```
+x_test = normalized.process(x_test);
+std::cout << "Test error: " << linear.evaluate(x_test, y_test) << std::endl;
 ```
 Predict with different values:
 ```
-// x1: bedrooms = 5
-// x2: bathrooms = 3
-// x3: size of home (sqft) = 2400
-// x4: size of lot (sqft) = 3000
+// x1: bedrooms
+// x2: bathrooms
+// x3: size of home (sqft)
+// x4: size of lot (sqft)
 // y = price of home (dollars)
 MatrixXd x{
-    {5, 3, 2400, 3000}
+  {2, 4, 2400, 3000},
+	{4, 6, 2800, 3200}
 };
 x = normalized.process(x);
-std::cout << "Prediction::\n" << linear.predict(x) << " dollars" << std::endl;
+std::cout << "Prediction::\n" << linear.predict(x) * scale << " dollars" << std::endl;
 ```
 
 ---
