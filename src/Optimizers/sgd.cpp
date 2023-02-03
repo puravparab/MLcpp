@@ -60,7 +60,7 @@ void SGD::optimize(){
 	}
 
 	// Run stochastic gradient descent
-	while (abs(prev_error - curr_cost) > epsilon || count <= iterations){
+	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
 		if(count % 10000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;

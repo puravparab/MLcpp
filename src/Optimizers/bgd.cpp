@@ -57,9 +57,9 @@ void BGD::optimize(){
 		curr_cost = bce.get_error();
 	}
 
-	while (abs(prev_error - curr_cost) > epsilon || count <= iterations){
-		// Print out cost at every 1000th iteration
-		if(count % 1000 == 0){
+	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
+		// Print count at every iterval
+		if(count % 10000 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 

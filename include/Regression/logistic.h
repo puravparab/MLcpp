@@ -20,12 +20,8 @@ class Logistic{
 	Logistic(MatrixXd x, MatrixXd y, MatrixXd weights, double bias)
 		: x(x), y(y), w(weights), b(bias), x_test(x), y_test(y)
 		{}
-	
-	Logistic(MatrixXd x, MatrixXd y, MatrixXd weights, double bias, MatrixXd x_test, MatrixXd y_test)
-		: x(x), y(y), w(weights), b(bias), x_test(x_test), y_test(y_test)
-		{}
 
-	MatrixXd train(double learning_rate, std::string gradient_descent,  double epsilon, int iteration);
+	MatrixXd train(double learning_rate, std::string gradient_descent,  double epsilon, int iterations);
 	MatrixXd predict();
 	MatrixXd predict(MatrixXd x_i);
 };
