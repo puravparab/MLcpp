@@ -25,19 +25,13 @@ double BinaryCrossEntropy::get_error(){
 }
 
 MatrixXd BinaryCrossEntropy::get_derivative_w(){
-	MatrixXd Ones = Eigen::MatrixXd::Ones(y_train.rows(), 1);
-	MatrixXd logOne = y_predict.array().log();
-	MatrixXd logTwo = (Ones - y_predict).array().log();
-	MatrixXd L = -1 * (y_train.cwiseProduct(logOne) + ((Ones - y_train).cwiseProduct(logTwo)));
-	MatrixXd derivative_cost = L.transpose() * x_train;
+	MatrixXd y_diff = y_predict - y_train;
+	MatrixXd derivative_cost = y_diff.transpose() * x_train;
 	return derivative_cost.transpose();
 }
 
 double BinaryCrossEntropy::get_derivative_b(){
-	MatrixXd Ones = Eigen::MatrixXd::Ones(y_train.rows(), 1);
-	MatrixXd logOne = y_predict.array().log();
-	MatrixXd logTwo = (Ones - y_predict).array().log();
-	MatrixXd L = -1 * (y_train.cwiseProduct(logOne) + ((Ones - y_train).cwiseProduct(logTwo)));
-	MatrixXd derivative_cost = (L.colwise().sum());
-	return derivative_cost(0,0);
+	MatrixXd y_diff = y_predict - y_train;
+	MatrixXd error = (y_diff.colwise().sum());
+	return error(0,0);
 }

@@ -59,7 +59,7 @@ void BGD::optimize(){
 
 	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
-		if(count % 10000 == 0){
+		if(count % 200 == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 
@@ -90,5 +90,4 @@ void BGD::optimize(){
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
 	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;
 	std::cout << "Bias: " << b << std::endl;
-
 }

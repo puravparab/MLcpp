@@ -6,6 +6,7 @@
 #include <Loss/mean_squared_error.h>
 #include <Loss/binary_cross_entropy.h>
 #include <Preprocessing/normalization.h>
+#include <Optimizers/bgd.h>
 
 using Eigen::MatrixXd;
 
@@ -40,11 +41,16 @@ int main()
 		{0},{0}
 	};
 	double bias = 0;
-	double learning_rate = 5e-10;
+	double learning_rate = 0.3;
 
+	// Train logistic regression model
 	Logistic logistic(x_train, y_train, weights, bias);
-	logistic.train(learning_rate, "sgd", 1e-20, 200000);
-
+	logistic.train(learning_rate, "bgd", 1e-6, 5000);
+	// Predict
+	// MatrixXd x{
+	// 	{2.5, 3},
+	// 	{0.5, 0.5}
+	// };
 	MatrixXd y_predict = logistic.predict();
 	std::cout << "Predictions: \n" << y_predict << std::endl;
 
