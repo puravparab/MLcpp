@@ -11,17 +11,17 @@
 //	2. gradient_descent (string): "sgd" - stochastic, "bgd"- batch
 // 
 // Returns N x 1 matrix of predictions
-MatrixXd Linear::train(double learning_rate, std::string gradient_descent, double epsilon, int iteration){
+MatrixXd Linear::train(double learning_rate, std::string gradient_descent, double epsilon, int iteration, int iteration_skip){
 	MatrixXd y_predict = predict();
 	if (gradient_descent == "bgd"){
 		BGD gd(w, b, y_predict, y, x, learning_rate, "mse", epsilon, iteration);
-		gd.optimize();
+		gd.optimize(iteration_skip);
 		w = gd.get_weight();
 		b = gd.get_bias();
 	}
 	else if (gradient_descent == "sgd"){
 		SGD gd(w, b, y_predict, y, x, learning_rate, "mse", epsilon, iteration);
-		gd.optimize();
+		gd.optimize(iteration_skip);
 		w = gd.get_weight();
 		b = gd.get_bias();
 	}

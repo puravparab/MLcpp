@@ -42,7 +42,7 @@ double SGD::get_bias(){
 	return b;
 }
 
-void SGD::optimize(){
+void SGD::optimize(int iteration_skip){
 	srand(time(0));
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
@@ -62,7 +62,7 @@ void SGD::optimize(){
 	// Run stochastic gradient descent
 	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
-		if(count % 10000 == 0){
+		if(count % iteration_skip == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		

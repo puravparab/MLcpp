@@ -10,15 +10,16 @@ class Linear{
 	MatrixXd y; // Target (n examples, 1 column)
 	MatrixXd w; // Weights (n rows, 1 column)
 	double b; // Bias
+
 	public:
-		Linear(MatrixXd x, MatrixXd y, MatrixXd weights, double bias)
-			: x(x), y(y), w(weights), b(bias)
-			{}
-		
-		MatrixXd train(double learning_rate, std::string gradient_descent, double epsilon, int iteration);
-		MatrixXd predict();
-		MatrixXd predict(MatrixXd x_i);
-		double evaluate(MatrixXd x_test, MatrixXd y_test);
+	Linear(MatrixXd x, MatrixXd y, MatrixXd weights, double bias)
+		: x(x), y(y), w(weights), b(bias)
+		{}
+	
+	MatrixXd train(double learning_rate, std::string gradient_descent, double epsilon, int iteration, int iteration_skip);
+	MatrixXd predict();
+	MatrixXd predict(MatrixXd x_i);
+	double evaluate(MatrixXd x_test, MatrixXd y_test);
 };
 
 #endif /* LINEAR_H */
