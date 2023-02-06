@@ -102,7 +102,7 @@ Linear linear(x_train, y_train, weights, bias);
 ```
 Train linear model:
 ```
-MatrixXd y_predict = linear.train(learning_rate, "bgd", epsilon, iterations);
+MatrixXd y_predict = linear.train(learning_rate, "bgd", epsilon, iterations, 1000);
 ```
 Evaluate trained model with test data
 ```
@@ -121,7 +121,55 @@ MatrixXd x{
 	{4, 6, 2800, 3200}
 };
 x = normalized.process(x);
-std::cout << "Prediction::\n" << linear.predict(x) * scale << " dollars" << std::endl;
+std::cout << "Predictions:\n" << linear.predict(x) * scale << " dollars" << std::endl;
+```
+
+## Logistic Regression:
+
+Ex: Create a logistic regression model to perform binary classification using the binary_test1.csv dataset
+
+In src/main.cpp:
+
+Import dataset and training examples
+```
+std::string url = ".\\dataset\\binary_test1.csv";
+Dataset data(url);
+MatrixXd train = data.get_train();
+```
+Split into features and targets
+```
+MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
+MatrixXd y_train = train.col(train.cols() - 1);
+```
+Add initial weights, bias, learning rate, epsilon and iterations
+```
+MatrixXd weights{
+	{0},{0}
+};
+double bias = 0;
+double learning_rate = 0.3;
+double epsilon = 1e-6;
+double iterations = 5000;
+```
+Create the logistic model with batch gradient descent:
+```
+Logistic logistic(x_train, y_train, weights, bias);
+```
+Train logistic model:
+```
+MatrixXd y_predict = logistic.train(learning_rate, "bgd", epsilon, iterations, 200);
+```
+Predict with different values:
+```
+std::cout << "\nPredictions: \n" << y_predict << std::endl;
+
+// or 
+
+MatrixXd x{
+	{2.5, 3},
+	{0.5, 0.5}
+};
+std::cout << "\nPredictions:\n" << logistic.predict(x) << std::endl;
 ```
 
 ---
