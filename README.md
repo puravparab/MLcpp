@@ -10,24 +10,15 @@
 	</p
 </p>
 
-<!-- <p align="center">
-    <a href="#Requirements">Requirements</a>
-	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-	<a href="#Installation">Installation</a>
-	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-	<a href="#Usage">Usage</a>
-	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-	<a href="#License">License</a>
-</p> -->
-
 # Table of Contents
 
-1. [Requirements](#Requirements)
-2. [Installation](#Installation)
-3. [Usage](#Usage)
-    3a. [Linear Regression](#Linear-regression)
-    3b. [Logistic Regression](#Logistic-regression)
-4. [License](#License)
+- [Table of Contents](#table-of-contents)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+	- [Linear Regression:](#linear-regression)
+	- [Logistic Regression:](#logistic-regression)
+- [License](#license)
 
 
 # Requirements
