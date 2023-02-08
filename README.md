@@ -25,8 +25,8 @@
 1. [Requirements](#Requirements)
 2. [Installation](#Installation)
 3. [Usage](#Usage)
-	3a. [Linear Regression](#Linear-regression)
-	3b. [Logistic Regression](#Logistic-regression)
+    3a. [Linear Regression](#Linear-regression)
+    3b. [Logistic Regression](#Logistic-regression)
 4. [License](#License)
 
 
