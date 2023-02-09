@@ -33,10 +33,13 @@ int main()
 	// std::string url = ".\\dataset\\binary_test1.csv";
 	// Dataset data(url);
 	// MatrixXd train = data.get_train();
+	// MatrixXd test = data.get_test();
 	// MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
 	// MatrixXd y_train = train.col(train.cols() - 1);
+	// MatrixXd x_test = test.block(0, 0, test.rows(), test.cols()-1);
+	// MatrixXd y_test = test.col(test.cols()-1);
 
-	// std::cout << "training examples: " << x_train.rows() << std::endl;
+	// // std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// MatrixXd weights{
 	// 	{0},{0}
 	// };
@@ -47,11 +50,8 @@ int main()
 
 	// // Train logistic regression model
 	// Logistic logistic(x_train, y_train, weights, bias);
-	// MatrixXd y_predict = logistic.train(learning_rate, "bgd", epsilon, iterations, 200);
-	// // MatrixXd x{
-	// // 	{2.5, 3},
-	// // 	{0.5, 0.5}
-	// // };
+	// MatrixXd y_predict = logistic.train(x_test, y_test, learning_rate, "bgd", epsilon, iterations, 200);
+
 	// std::cout << "\nPredictions: \n" << y_predict << std::endl;
 
 	// MatrixXd x{
@@ -59,12 +59,12 @@ int main()
 	// 	{0.5, 0.5}
 	// };
 	// std::cout << "\nPredictions:\n" << logistic.predict(x) << std::endl;
-	// std::cout << "\nTest:\n" << logistic.evaluate(x_train, y_train) << std::endl;
+	// std::cout << "\nTest Evaluation Loss:\n" << logistic.evaluate(x_test, y_test) << std::endl;
 
 
 	// Multiple Regression:
 	std::string url = ".\\dataset\\real_estate.csv";
-	Dataset dataset(url);
+	Dataset dataset(url, 80);
 	MatrixXd train = dataset.get_train();
 	MatrixXd test = dataset.get_test();
 
@@ -94,7 +94,7 @@ int main()
 	double epsilon = 1e-5;
 	double iterations = 100000;
 	Linear linear(x_train, y_train, weights, bias);
-	MatrixXd y_predict = linear.train(y_test, x_test, learning_rate, "bgd", epsilon, iterations, 200);
+	MatrixXd y_predict = linear.train(x_test, y_test, learning_rate, "bgd", epsilon, iterations, 200);
 
 	std::cout << "Test error: " << linear.evaluate(x_test, y_test) << std::endl;
 

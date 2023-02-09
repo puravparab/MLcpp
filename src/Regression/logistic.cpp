@@ -7,7 +7,7 @@
 #include <Optimizers/sgd.h>
 
 
-MatrixXd Logistic::train(MatrixXd y_test, MatrixXd x_test, double learning_rate, std::string gradient_descent, double epsilon, int iterations, int iteration_skip){
+MatrixXd Logistic::train(MatrixXd x_test, MatrixXd y_test, double learning_rate, std::string gradient_descent, double epsilon, int iterations, int iteration_skip){
 	MatrixXd y_predict = predict();
 	if (gradient_descent == "bgd"){
 		BGD gd(w, b, y_predict, y_test, x_test, y, x, learning_rate, "bce", epsilon, iterations);
