@@ -65,7 +65,7 @@ In src/main.cpp:
 Import dataset and training examples
 ```
 std::string url = ".\\dataset\\real_estate.csv";
-Dataset data(url);
+Dataset data(url, 80);
 MatrixXd train = dataset.get_train();
 MatrixXd test = dataset.get_test();
 ```
@@ -82,10 +82,11 @@ int scale = 1000000;
 y_train = y_train / scale;
 y_test = y_test / scale;
 ```
-Normalize input:
+Normalize input features:
 ```
 Normalization normalized(x_train);
 x_train = normalized.get_x_train();
+x_test = normalized.process(x_test);
 ```
 Add initial weights, bias, learning rate, epsilon and iterations
 ```
@@ -103,7 +104,7 @@ Linear linear(x_train, y_train, weights, bias);
 ```
 Train linear model:
 ```
-MatrixXd y_predict = linear.train(learning_rate, "bgd", epsilon, iterations, 1000);
+MatrixXd y_predict = linear.train(x_test, y_test, learning_rate, "bgd", epsilon, iterations, 1000);
 ```
 Evaluate trained model with test data
 ```
@@ -141,6 +142,8 @@ Split into features and targets
 ```
 MatrixXd x_train = train.block(0, 0, train.rows(), train.cols() - 1);
 MatrixXd y_train = train.col(train.cols() - 1);
+MatrixXd x_test = test.block(0, 0, test.rows(), test.cols()-1);
+MatrixXd y_test = test.col(test.cols()-1);
 ```
 Add initial weights, bias, learning rate, epsilon and iterations
 ```
@@ -158,7 +161,11 @@ Logistic logistic(x_train, y_train, weights, bias);
 ```
 Train logistic model:
 ```
-MatrixXd y_predict = logistic.train(learning_rate, "bgd", epsilon, iterations, 200);
+MatrixXd y_predict = logistic.train(x_test, y_test, learning_rate, "bgd", epsilon, iterations, 200);
+```
+Evaluate model with test data:
+```
+std::cout << "\nTest Evaluation Loss:\n" << logistic.evaluate(x_test, y_test) << std::endl;
 ```
 Predict with different values:
 ```

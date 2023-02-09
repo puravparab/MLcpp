@@ -52,6 +52,7 @@ int main()
 	// Logistic logistic(x_train, y_train, weights, bias);
 	// MatrixXd y_predict = logistic.train(x_test, y_test, learning_rate, "bgd", epsilon, iterations, 200);
 
+	// std::cout << "\nTest Evaluation Loss:\n" << logistic.evaluate(x_test, y_test) << std::endl;
 	// std::cout << "\nPredictions: \n" << y_predict << std::endl;
 
 	// MatrixXd x{
@@ -59,7 +60,6 @@ int main()
 	// 	{0.5, 0.5}
 	// };
 	// std::cout << "\nPredictions:\n" << logistic.predict(x) << std::endl;
-	// std::cout << "\nTest Evaluation Loss:\n" << logistic.evaluate(x_test, y_test) << std::endl;
 
 
 	// Multiple Regression:
