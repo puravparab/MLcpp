@@ -59,6 +59,8 @@ int main()
 		{0.5, 0.5}
 	};
 	std::cout << "\nPredictions:\n" << logistic.predict(x) << std::endl;
+	std::cout << "\nTest:\n" << logistic.evaluate(x_train, y_train) << std::endl;
+
 
 	// // Multiple Regression:
 	// std::string url = ".\\dataset\\real_estate.csv";

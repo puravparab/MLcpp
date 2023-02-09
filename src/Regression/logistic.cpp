@@ -2,7 +2,7 @@
 #include <math.h>
 #include <Regression/logistic.h>
 #include <Eigen3/Eigen/Dense>
-#include <Loss/mean_squared_error.h>
+#include <Loss/binary_cross_entropy.h>
 #include <Optimizers/bgd.h>
 #include <Optimizers/sgd.h>
 
@@ -47,6 +47,11 @@ MatrixXd Logistic::predict(MatrixXd x_i){
 	for (int i = 0; i < y_predict.rows(); i++){
 		y_predict(i,0) = 1 / (1 + exp(-y_predict(i,0)));
 	}
-	
 	return y_predict;
+}
+
+double Logistic::evaluate(MatrixXd x_test, MatrixXd y_test){
+	MatrixXd y_predict = predict(x_test);
+	BinaryCrossEntropy bce(y_predict, y_test, x_test);
+	return bce.get_error();
 }

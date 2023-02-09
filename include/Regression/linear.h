@@ -1,3 +1,4 @@
+// Linear Regression
 // linear.h
 #ifndef LINEAR_H
 #define LINEAR_H
