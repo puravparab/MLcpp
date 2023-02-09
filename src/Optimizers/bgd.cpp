@@ -44,8 +44,9 @@ double BGD::get_bias(){
 void BGD::optimize(int iteration_skip){
 	double prev_error = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
-
+	double test_loss; // Test evaluation loss
 	double curr_cost = 0;
+
 	// Using mean squared error:
 	if (error_type == "mse"){
 		MeanSquaredError mse(y_predict, y_train, x_train);
@@ -60,7 +61,7 @@ void BGD::optimize(int iteration_skip){
 	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
 		if(count % iteration_skip == 0){
-			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
+			std::cout << "Step #" << count << ": Cost = "<< curr_cost;
 		}
 
 		prev_error = curr_cost;
@@ -73,6 +74,7 @@ void BGD::optimize(int iteration_skip){
 		if (error_type == "mse"){
 			Linear linear(x_train, y_train, w, b);
 			y_predict = linear.predict();
+			test_loss = linear.evaluate(x_test, y_test);
 			MeanSquaredError mse(y_predict, y_train, x_train);
 			curr_cost = mse.get_error();
 		} 
@@ -80,12 +82,17 @@ void BGD::optimize(int iteration_skip){
 		else if (error_type == "bce"){
 			Logistic logistic(x_train, y_train, w, b);
 			y_predict = logistic.predict();
+			test_loss = logistic.evaluate(x_test, y_test);
 			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
+		// Print out test loss
+		if(count % iteration_skip == 0){
+			std::cout << ", loss = " << test_loss << std::endl;
+		}
 		count += 1;
 	}
-	std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
+	std::cout << "Step #" << count << ": Cost = "<< curr_cost << ", loss = " << test_loss << std::endl;
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
 	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;
