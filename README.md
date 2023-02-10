@@ -16,6 +16,8 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+	- [Modules](#modules)
+- [Examples](#examples)
 	- [Linear Regression:](#linear-regression)
 	- [Logistic Regression:](#logistic-regression)
 - [License](#license)
@@ -55,6 +57,27 @@ Run program
 ---
 
 # Usage
+
+## Modules
+
+-	Dataset:
+	- Import datasets and split into training and test data using Dataset class
+
+- Loss
+	- Contains classes for various loss functions
+
+- Optimizers
+	- Contains classes for various optimizers
+
+- Preprocessing
+	- Normalization class for input features
+
+- Regression
+	- Contains clases for various linear and logistic regression
+
+---
+
+# Examples
 
 ## Linear Regression:
 
