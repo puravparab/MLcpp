@@ -42,7 +42,7 @@ double BGD::get_bias(){
 }
 
 void BGD::optimize(int iteration_skip){
-	double prev_error = std::numeric_limits<double>::infinity();
+	double prev_cost = std::numeric_limits<double>::infinity();
 	int count = 0; // Iteration count
 	double test_loss; // Test evaluation loss
 	double curr_cost = 0;
@@ -58,15 +58,15 @@ void BGD::optimize(int iteration_skip){
 		curr_cost = bce.get_error();
 	}
 
-	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
+	while (abs(prev_cost - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
 		if(count % iteration_skip == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost;
 		}
 
-		prev_error = curr_cost;
+		prev_cost = curr_cost; // Update cost
 
-		// Run Stochastic gradient descent
+		// Run Batch gradient descent
 		w = update_weights(); // Update weights
 		b = update_bias(); // Update Bias
 
@@ -86,12 +86,14 @@ void BGD::optimize(int iteration_skip){
 			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
+
 		// Print out test loss
 		if(count % iteration_skip == 0){
 			std::cout << ", loss = " << test_loss << std::endl;
 		}
 		count += 1;
 	}
+	
 	std::cout << "Step #" << count << ": Cost = "<< curr_cost << ", loss = " << test_loss << std::endl;
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;

@@ -20,7 +20,7 @@ MatrixXd Linear::train(MatrixXd x_test, MatrixXd y_test, double learning_rate, s
 		b = gd.get_bias();
 	}
 	else if (gradient_descent == "sgd"){
-		SGD gd(w, b, y_predict, y, x, learning_rate, "mse", epsilon, iteration);
+		SGD gd(w, b, y_predict, y, x, y_test, x_test, learning_rate, "mse", epsilon, iteration);
 		gd.optimize(iteration_skip);
 		w = gd.get_weight();
 		b = gd.get_bias();

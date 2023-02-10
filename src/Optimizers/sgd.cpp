@@ -44,10 +44,11 @@ double SGD::get_bias(){
 
 void SGD::optimize(int iteration_skip){
 	srand(time(0));
-	double prev_error = std::numeric_limits<double>::infinity();
+	double prev_cost = std::numeric_limits<double>::infinity();
+	double test_loss; // Test evaluation loss
 	int count = 0; // Iteration count
-
 	double curr_cost = 0;
+
 	// Using mean squared error:
 	if (error_type == "mse"){
 		MeanSquaredError mse(y_predict, y_train, x_train);
@@ -60,13 +61,13 @@ void SGD::optimize(int iteration_skip){
 	}
 
 	// Run stochastic gradient descent
-	while (abs(prev_error - curr_cost) > epsilon && count <= iterations){
+	while (abs(prev_cost - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
 		if(count % iteration_skip == 0){
 			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
 		}
 		
-		prev_error = curr_cost;
+		prev_cost = curr_cost; // Update cost
 
 		// Create matrices for random sample
 		MatrixXd x_gd(size, x_train.cols());
@@ -80,7 +81,7 @@ void SGD::optimize(int iteration_skip){
 			y_predict_gd.row(i) = y_predict.row(index);
 		}
 
-		// Run Stochastic gradient descent and update parameters
+		// Run Stochastic gradient descent
 		w = update_weights(x_gd, y_gd, y_predict_gd); // Update weights
 		b = update_bias(x_gd, y_gd, y_predict_gd); // Update Bias
 		
@@ -88,6 +89,7 @@ void SGD::optimize(int iteration_skip){
 		if (error_type == "mse"){
 			Linear linear(x_train, y_train, w, b);
 			y_predict = linear.predict();
+			test_loss = linear.evaluate(x_test, y_test);
 			MeanSquaredError mse(y_predict, y_train, x_train);
 			curr_cost = mse.get_error();
 		} 
@@ -95,12 +97,20 @@ void SGD::optimize(int iteration_skip){
 		else if (error_type == "bce"){
 			Logistic logistic(x_train, y_train, w, b);
 			y_predict = logistic.predict();
+			test_loss = logistic.evaluate(x_test, y_test);
 			BinaryCrossEntropy bce(y_predict, y_train, x_train);
 			curr_cost = bce.get_error();
 		}
+
+		// Print out test loss
+		if(count % iteration_skip == 0){
+			std::cout << ", loss = " << test_loss << std::endl;
+		}
+
 		count += 1;
 	}
-	std::cout << "Step #" << count << ": Cost="<< curr_cost << std::endl;
+	
+	std::cout << "Step #" << count << ": Cost = "<< curr_cost << ", loss = " << test_loss << std::endl;
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
 	std::cout << "Weights: [" << w.transpose() << "]" << std::endl;

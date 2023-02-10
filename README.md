@@ -63,16 +63,16 @@ Run program
 -	Dataset:
 	- Import datasets and split into training and test data using Dataset class
 
-- Loss
+- Loss:
 	- Contains classes for various loss functions
 
-- Optimizers
+- Optimizers:
 	- Contains classes for various optimizers
 
-- Preprocessing
+- Preprocessing:
 	- Normalization class for input features
 
-- Regression
+- Regression:
 	- Contains clases for various linear and logistic regression
 
 ---
