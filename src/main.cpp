@@ -34,6 +34,7 @@ int main()
 {
 	std::cout << "MLcpp: Machine Learning library built with C++" << std::endl;
 
-	// example_linear_regression();
+	// example_linear_regression_bgd();
+	// example_linear_regression_sgd();
 	// example_logistic_regression();
 }

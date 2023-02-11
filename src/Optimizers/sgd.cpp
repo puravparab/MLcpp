@@ -64,7 +64,7 @@ void SGD::optimize(int iteration_skip){
 	while (abs(prev_cost - curr_cost) > epsilon && count <= iterations){
 		// Print count at every iterval
 		if(count % iteration_skip == 0){
-			std::cout << "Step #" << count << ": Cost = "<< curr_cost << std::endl;
+			std::cout << "Step #" << count << ": Cost = "<< curr_cost;
 		}
 		
 		prev_cost = curr_cost; // Update cost
@@ -109,7 +109,7 @@ void SGD::optimize(int iteration_skip){
 
 		count += 1;
 	}
-	
+
 	std::cout << "Step #" << count << ": Cost = "<< curr_cost << ", loss = " << test_loss << std::endl;
 
 	std::cout << std::endl << "Gradient descent steps = " << count << std::endl;
