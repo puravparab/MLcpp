@@ -40,6 +40,12 @@ MatrixXd Normalization::process(MatrixXd x_i){
 			x_i.col(i) = (x_i.col(i).array() - mean(0,i)) / (max(0,i) - min(0,i));
 		}
 	}
+	if (type == "zs"){
+		for (int i = 0; i < x.cols(); i++){
+			// normalized x = (x - mean) / (max - min)
+			x_i.col(i) = (x_i.col(i).array() - mean(0,i)) / std_dev(0,i);
+		}
+	}
 	return x_i;
 }
 

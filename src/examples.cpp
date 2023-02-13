@@ -35,7 +35,7 @@ void example_linear_regression_bgd(){
 
 	std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// Normalize Input
-	Normalization normalized(x_train, "mn");
+	Normalization normalized(x_train, "zs");
 	x_train = normalized.get_x_train();
 	x_test = normalized.process(x_test);
 
@@ -85,7 +85,7 @@ void example_linear_regression_sgd(){
 
 	std::cout << "training examples: " << x_train.rows() << " test examples: " << x_test.rows() << std::endl;
 	// Normalize Input
-	Normalization normalized(x_train);
+	Normalization normalized(x_train, "zs");
 	x_train = normalized.get_x_train();
 	x_test = normalized.process(x_test);
 
