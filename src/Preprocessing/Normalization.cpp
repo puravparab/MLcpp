@@ -24,22 +24,18 @@ void Normalization::process(){
 		mean(0,i) = x.col(i).mean();
 		std_dev(0,i) = sqrt((x.col(i).array() - mean(0,i)).square().sum() / x.col(i).rows());
 	}
-	std::cout << "Min: " << min << std::endl;
-	std::cout << "Max: " <<  max << std::endl;
-	std::cout << "Mean: " << mean << std::endl;
-	std::cout << "Std dev: " << std_dev << std::endl;
-	std::cout << x.row(0) << std::endl;
 	x = process(x);
-	std::cout << x.row(0) << std::endl;
 }
 
 MatrixXd Normalization::process(MatrixXd x_i){
+	// Mean Normalization
 	if (type == "mn"){
 		for (int i = 0; i < x.cols(); i++){
 			// normalized x = (x - mean) / (max - min)
 			x_i.col(i) = (x_i.col(i).array() - mean(0,i)) / (max(0,i) - min(0,i));
 		}
 	}
+	// Z-score Normalization
 	if (type == "zs"){
 		for (int i = 0; i < x.cols(); i++){
 			// normalized x = (x - mean) / (max - min)
