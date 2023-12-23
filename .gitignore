@@ -54,4 +54,5 @@ _deps
 
 # Other
 /other
+/build
 .vscode
