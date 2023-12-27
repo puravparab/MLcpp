@@ -54,5 +54,7 @@ _deps
 
 # Other
 /other
-/build
 .vscode
+
+# Mac
+**/.DS_Store
