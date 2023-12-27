@@ -5,7 +5,10 @@
 int main() {
   Dataset dataset;
 	dataset.read("../../../datasets/housing.csv");
-	dataset.head(10);
-	std::vector shape = dataset.shape();
-	std::cout << "Shape: " << shape[0] << " " << shape[1];
+	dataset.print_headers();
+
+	printf("\n");
+	dataset.head(3);
+
+	dataset.col_summary("longitude");
 }
