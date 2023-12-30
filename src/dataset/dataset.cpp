@@ -9,6 +9,7 @@
 using dataType = std::variant<std::string, float>;
 
 Column_Summary::Column_Summary(std::string name) : name(name), type(std::type_index(typeid(float))){}
+
 Dataset::Dataset(){}
 
 // Read the dataset from the file path (csv only for now)
@@ -156,6 +157,15 @@ const void Dataset::head(uint8_t n, int width){
 		}
 		printf("\n");
 	}
+}
+
+// Return vector of dataset headers
+std::vector<std::string> Dataset::get_headers(){
+	std::vector<std::string> headers;
+	for (uint16_t i = 0; i < column_summary.size(); i++){
+		headers.push_back(column_summary[i].name);
+	}
+	return headers;
 }
 
 // Print headers

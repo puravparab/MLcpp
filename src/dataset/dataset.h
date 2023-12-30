@@ -27,6 +27,7 @@ class Dataset {
 		void read(const std::string file_path);
 		const std::vector<uint32_t> shape();
 		const void head(uint8_t n, int width);
+		std::vector<std::string> get_headers();
 		const void print_headers();
 		const void col_summary(std::string name);
 		// Drop column function
