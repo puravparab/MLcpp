@@ -25,12 +25,13 @@ class Dataset {
 	public:
 		Dataset();
 		void read(const std::string file_path);
+		void set_output_column(std::string name);
 		const std::vector<uint32_t> shape();
 		const void head(uint8_t n, int width);
 		std::vector<std::string> get_headers();
 		const void print_headers();
 		const void col_summary(std::string name);
-		// Drop column function
+		void drop_column(std::string name);
 		// One hot encoding
 	private:
 		std::vector<std::vector<dataType>> data;
@@ -39,7 +40,6 @@ class Dataset {
 		uint16_t y_index; // Index of the training output
 		std::vector<Column_Summary> column_summary;
 
-		void update_header_type();
 		void handle_null_values();
 		void summarize_columns();
 };

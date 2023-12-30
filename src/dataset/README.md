@@ -16,6 +16,10 @@ Load dataset
 ``` cpp
 dataset.read(<path to csv file>);
 ```
+Set output column
+```cpp
+dataset.set_output_column(<name of the column>)
+```
 Get shape
 ```cpp
 const std::vector<uint32_t> shape = dataset.shape();
@@ -35,4 +39,8 @@ dataset.head(<number of rows>, <display width>);
 Display summary for a column
 ```cpp
 dataset.col_summary(<name of column>);
+```
+Remove column from dataset
+```cpp
+dataset.drop_column(<column name>);
 ```

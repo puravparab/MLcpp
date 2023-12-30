@@ -135,6 +135,22 @@ void Dataset::summarize_columns() {
 	}
 }
 
+// Set y index or output index
+void Dataset::set_output_column(std::string name){
+	int16_t index = -1;
+	for (int16_t i = 0; i < col_length; i++){
+		if(column_summary[i].name == name){
+			index = i;
+			break;
+		}
+	}
+	if (index == -1){
+		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
+		exit(1);
+	}
+	y_index = index;
+}
+
 // Return shape: (rows, columns)
 const std::vector<uint32_t> Dataset::shape(){
 	return {length, col_length};
@@ -189,8 +205,8 @@ const void Dataset::col_summary(std::string name){
 		}
 	}
 	if (index == -1){
-		std::cout << "\nError: column " << name << " does not exist" << std::endl;
-		return;
+		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
+		exit(1);
 	}
 	printf("\nCOL SUMMARY:\n");
 	printf("Name: %s\n", name.c_str());
@@ -209,4 +225,27 @@ const void Dataset::col_summary(std::string name){
 		std::cout << "Std Dev: " << column_summary[index].std_dev << std::endl;
 		std::cout << "Null values: " << column_summary[index].null_index.size() << std::endl;
 	}
+}
+
+// Drop a specific column
+void Dataset::drop_column(std::string name){
+	int16_t index = -1;
+	for (int16_t i = 0; i < col_length; i++){
+		if(column_summary[i].name == name){
+			index = i;
+			break;
+		}
+	}
+	if (index == -1){
+		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
+		exit(1);
+	}
+
+	// remove column from column_summary vector
+	column_summary.erase(column_summary.begin() + index);
+	// remove column
+	for (uint32_t i = 0; i < length; i++){
+		data[i].erase(data[i].begin() + index);
+	}
+	col_length -= 1;
 }

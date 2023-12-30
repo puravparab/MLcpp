@@ -2,11 +2,16 @@
 #include <vector>
 #include "../../src/dataset/dataset.h"
 
+// Run ./setup.sh -> enter "dataset"
+
 int main() {
   Dataset dataset;
 	// read dataset
 	dataset.read("../../../datasets/housing.csv");
 
+	// set output column
+	dataset.set_output_column("median_house_value");
+	
 	// display shape
 	const std::vector<uint32_t> shape = dataset.shape();
 	std::cout << "Shape: (" << shape[0] << ", " << shape[1] <<  ")" << std::endl;
