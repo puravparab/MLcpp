@@ -5,16 +5,19 @@
 #include <typeindex>
 #include <vector>
 #include <string>
-#include <any>
+#include <unordered_map>
 #include <Eigen/Dense>
 
 using dataType = std::variant<std::string, float>;
 
-class Header_Item {
+class Column_Summary {
 	public:
 		std::string name;
 		std::type_index type;
-		Header_Item(std::string name, std::type_index type);
+		float mean, sum, std_dev, max, min;
+		std::vector<uint32_t> null_index;
+		std::unordered_map<std::string, int>unique_strings;
+		Column_Summary(std::string name);	
 };
 
 // 2D Dataset
@@ -33,9 +36,11 @@ class Dataset {
 		uint32_t length;
 		uint16_t col_length; // Number of columns
 		uint16_t y_index; // Index of the training output
-		std::vector<Header_Item> headers;
+		std::vector<Column_Summary> column_summary;
 
 		void update_header_type();
+		void handle_null_values();
+		void summarize_columns();
 };
 
 #endif // DATASET_H

@@ -18,11 +18,12 @@ int main() {
 	dataset.head(3, 15);
 
 	// display column summary
-	dataset.col_summary("housing_median_age");
+	
 	dataset.col_summary("longitude");
 	dataset.col_summary("latitude");
+	dataset.col_summary("housing_median_age");
 	dataset.col_summary("total_rooms");
-	// dataset.col_summary("total_bedrooms");
+	dataset.col_summary("total_bedrooms");
 	dataset.col_summary("population");
 	dataset.col_summary("households");
 	dataset.col_summary("median_income");
