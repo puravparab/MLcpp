@@ -137,13 +137,7 @@ void Dataset::summarize_columns() {
 
 // Set y index or output index
 void Dataset::set_output_column(std::string name){
-	int16_t index = -1;
-	for (int16_t i = 0; i < col_length; i++){
-		if(column_summary[i].name == name){
-			index = i;
-			break;
-		}
-	}
+	int16_t index = get_col_index(name);
 	if (index == -1){
 		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
 		exit(1);
@@ -191,19 +185,13 @@ std::vector<std::string> Dataset::get_headers(){
 	type_names[std::type_index(typeid(float))] = "float";
 	printf("\nHEADERS:\n");
 	for (uint16_t i = 0; i < col_length; i++){
-		std::cout << i + 1 << ". " << column_summary[i].name << "(" << type_names[column_summary[i].type] << ")" << std::endl;
+		std::cout << i + 1 << ". " << column_summary[i].name << " (" << type_names[column_summary[i].type] << ")" << std::endl;
 	} 
  }
 
 // Display column summary
 const void Dataset::col_summary(std::string name){
-	int16_t index = -1;
-	for (int16_t i = 0; i < col_length; i++){
-		if(column_summary[i].name == name){
-			index = i;
-			break;
-		}
-	}
+	int16_t index = get_col_index(name);
 	if (index == -1){
 		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
 		exit(1);
@@ -240,6 +228,10 @@ void Dataset::drop_column(std::string name){
 		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
 		exit(1);
 	}
+	if (index == y_index){
+		std::cerr << "\nError: column " << name << " is an output column" << std::endl;
+		exit(1);
+	}
 
 	// remove column from column_summary vector
 	column_summary.erase(column_summary.begin() + index);
@@ -248,4 +240,48 @@ void Dataset::drop_column(std::string name){
 		data[i].erase(data[i].begin() + index);
 	}
 	col_length -= 1;
+}
+
+// One hot encoding
+void Dataset::one_hot_encoding(std::string name){
+	int16_t index = get_col_index(name);
+	if (index == -1){
+		std::cerr << "\nError: column " << name << " does not exist" << std::endl;
+		exit(1);
+	}
+	if (column_summary[index].type != std::type_index(typeid(std::string))){
+		std::cerr << "\nError: column " << name << " cannot have one hot encoding" << std::endl;
+		exit(1);
+	}
+	
+	int col_count = column_summary[index].unique_strings.size();
+	col_length += col_count;
+
+	// Add new columns to column_summary
+	for (auto it = column_summary[index].unique_strings.begin(); it != column_summary[index].unique_strings.end(); ++it){
+		Column_Summary col_summary(it->first);
+		column_summary.push_back(col_summary);
+	}
+	// Populate columns with one hot encoding
+	for (uint32_t i = 0; i < length; i++){
+		std::vector<dataType> expansion(col_count, float(0));
+		data[i].insert(data[i].end(), expansion.begin(), expansion.end());
+		int16_t j = get_col_index(std::get<std::string>(data[i][index])); // get index in expansion
+		data[i][j] = float(1);
+	}
+
+	drop_column(column_summary[index].name);
+	summarize_columns();
+}
+
+// Get column index
+int16_t Dataset::get_col_index(std::string name){
+	int16_t index = -1;
+	for (int16_t i = 0; i < col_length; i++){
+		if(column_summary[i].name == name){
+			index = i;
+			break;
+		}
+	}
+	return index;
 }

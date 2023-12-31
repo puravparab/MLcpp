@@ -32,7 +32,7 @@ class Dataset {
 		const void print_headers();
 		const void col_summary(std::string name);
 		void drop_column(std::string name);
-		// One hot encoding
+		void one_hot_encoding(std::string name);
 	private:
 		std::vector<std::vector<dataType>> data;
 		uint32_t length;
@@ -42,6 +42,7 @@ class Dataset {
 
 		void handle_null_values();
 		void summarize_columns();
+		int16_t get_col_index(std::string name);
 };
 
 #endif // DATASET_H

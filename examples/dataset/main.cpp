@@ -11,7 +11,7 @@ int main() {
 
 	// set output column
 	dataset.set_output_column("median_house_value");
-	
+
 	// display shape
 	const std::vector<uint32_t> shape = dataset.shape();
 	std::cout << "Shape: (" << shape[0] << ", " << shape[1] <<  ")" << std::endl;
@@ -27,4 +27,8 @@ int main() {
 	for (uint32_t i = 0; i < headers.size(); i++){
 		dataset.col_summary(headers[i]);
 	}
+
+	// Create one hot encoding for ocean_proximity
+	dataset.one_hot_encoding("ocean_proximity");
+	dataset.print_headers();
 }

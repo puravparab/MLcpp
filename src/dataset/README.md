@@ -44,3 +44,7 @@ Remove column from dataset
 ```cpp
 dataset.drop_column(<column name>);
 ```
+Create one hot encoding
+```cpp
+dataset.one_hot_enconding(<column name>);
+```
