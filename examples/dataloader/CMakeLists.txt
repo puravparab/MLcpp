@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
   "../../src/dataset/dataset.cpp"
   "../../src/dataset/dataloader.cpp"
-  "../../examples/dataset/main.cpp"
+  "../../examples/dataloader/main.cpp"
 )
 
 # specify the path to the test files

@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <limits>
 #include <fstream>
+#include <set>
 #include "../../src/dataset/dataset.h"
 #include "../../src/utilities/type.cpp"
 
@@ -242,6 +243,29 @@ void Dataset::drop_column(std::string name){
 	col_length -= 1;
 }
 
+// Remove every row that has null elements
+void Dataset::drop_null_rows(){
+	// Find null rows
+	std::set<uint32_t> null_rows;
+	for (uint16_t i = 0; i < column_summary.size(); i++){
+		for(uint32_t j = 0; j < column_summary[i].null_index.size(); j++){
+			null_rows.insert(column_summary[i].null_index[j]);
+		}
+	}
+	// Remove null rows
+	auto it = null_rows.rbegin();
+	while (it != null_rows.rend()) {
+		data.erase(data.begin() + *it);
+		it++;
+		length--;
+	}
+	// cleanup
+	for (uint16_t i = 0; i < column_summary.size(); i++){
+		column_summary[i].null_index.clear();
+	}
+	summarize_columns(); // update column summaries
+}
+
 // One hot encoding
 void Dataset::one_hot_encoding(std::string name){
 	int16_t index = get_col_index(name);
@@ -285,3 +309,9 @@ int16_t Dataset::get_col_index(std::string name){
 	}
 	return index;
 }
+
+// Get the data in dataset instance
+std::vector<std::vector<dataType>> Dataset::get_data(){
+	return data;
+}
+

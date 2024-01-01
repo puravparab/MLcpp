@@ -32,13 +32,15 @@ class Dataset {
 		const void print_headers();
 		const void col_summary(std::string name);
 		void drop_column(std::string name);
+		void drop_null_rows();
 		void one_hot_encoding(std::string name);
+		std::vector<std::vector<dataType>> get_data();
 	private:
 		std::vector<std::vector<dataType>> data;
-		uint32_t length;
+		uint32_t length; // Number of rows
 		uint16_t col_length; // Number of columns
 		uint16_t y_index; // Index of the training output
-		std::vector<Column_Summary> column_summary;
+		std::vector<Column_Summary> column_summary; // holds summary of each column
 
 		void handle_null_values();
 		void summarize_columns();
