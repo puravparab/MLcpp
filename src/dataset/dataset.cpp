@@ -146,6 +146,10 @@ void Dataset::set_output_column(std::string name){
 	y_index = index;
 }
 
+// Get y index or output index
+uint16_t Dataset::get_output_column(){
+	return y_index;
+}
 // Return shape: (rows, columns)
 const std::vector<uint32_t> Dataset::shape(){
 	return {length, col_length};

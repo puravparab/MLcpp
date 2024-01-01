@@ -24,9 +24,12 @@ int main() {
 	std::vector<uint32_t> shape = dataset.shape();
 	std::cout << "\nShape: (" << shape[0] << ", " << shape[1] <<  ")\n" << std::endl;
 
-	auto d = dataset.get_data();
-	Dataloader dl(d);
-	std::vector<Eigen::MatrixXf> vec = dl.split(90, 10);
-	Eigen::MatrixXf subset = vec[0].block(0, 0, 10, 14);
-	std::cout << "Eigen Matrix:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
+	Dataloader dl(dataset);
+	auto dl_split = dl.split(90, 10);
+  auto x_train = dl_split[0][0];
+  auto y_train = dl_split[0][1];
+  auto x_test = dl_split[1][0];
+  auto y_test = dl_split[1][1];
+	Eigen::MatrixXf subset = x_train.block(0, 0, 10, 13);
+	std::cout << "X Train:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
 }

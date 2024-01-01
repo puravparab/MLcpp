@@ -26,6 +26,7 @@ class Dataset {
 		Dataset();
 		void read(const std::string file_path);
 		void set_output_column(std::string name);
+		uint16_t get_output_column();
 		const std::vector<uint32_t> shape();
 		const void head(uint8_t n, int width);
 		std::vector<std::string> get_headers();

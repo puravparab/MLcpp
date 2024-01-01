@@ -1,13 +1,16 @@
+#include <iostream>
 #include <algorithm>
 #include <random>
 #include "dataloader.h"
 
 using dataType = std::variant<std::string, float>;
 
-Dataloader::Dataloader(std::vector<std::vector<dataType>>& data) : data(data){}
+Dataloader::Dataloader(Dataset& dataset) : dataset(dataset){
+	y_index = dataset.get_output_column();
+}
 
-std::vector<Eigen::MatrixXf> Dataloader::split(u_int8_t train_percent, u_int8_t test_percent){
-  // Assuming train_percent + test_percent equals 100
+std::vector<std::vector<Eigen::MatrixXf>> Dataloader::split(u_int8_t train_percent, u_int8_t test_percent){
+	auto data = dataset.get_data();
   uint32_t total_rows = data.size();
   uint32_t train_rows = total_rows * train_percent / 100;
   uint32_t test_rows = total_rows * test_percent / 100;
@@ -18,18 +21,33 @@ std::vector<Eigen::MatrixXf> Dataloader::split(u_int8_t train_percent, u_int8_t 
   std::shuffle(data.begin(), data.end(), g);
 
   // Create training set
-  Eigen::MatrixXf train_data(train_rows, cols);
+  Eigen::MatrixXf x_train(train_rows, cols - 1);
+	Eigen::MatrixXf y_train(train_rows, 1);
   for (uint32_t i = 0; i < train_rows; ++i) {
+		uint16_t xcol_index = 0;
 		for (uint16_t j = 0; j < cols; ++j){
-			train_data(i, j) = std::get<float>(data[i][j]);
+			if (j == y_index){
+				y_train(i, 0) = std::get<float>(data[i][j]);
+			} else {
+				x_train(i, xcol_index) = std::get<float>(data[i][j]);
+				xcol_index++;
+			}
 		}
   }
+	
   // Create testing set
-  Eigen::MatrixXf test_data(test_rows, cols);
+  Eigen::MatrixXf x_test(test_rows, cols - 1);
+	Eigen::MatrixXf y_test(test_rows, 1);
 	for (uint32_t i = 0 ; i < test_rows; ++i) {
+		uint16_t xcol_index = 0;
 		for (uint16_t j = 0; j < cols; ++j){
-			test_data(i, j) = std::get<float>(data[i + train_rows][j]);
+			if (j == y_index){
+				y_test(i, 0) = std::get<float>(data[i + train_rows][j]);
+			} else {
+				x_test(i, xcol_index) = std::get<float>(data[i + train_rows][j]);
+				xcol_index++;
+			}
 		}
   }
-  return {train_data, test_data};
+  return std::vector<std::vector<Eigen::MatrixXf>> {{x_train, y_train}, {x_test, y_test}};
 }
