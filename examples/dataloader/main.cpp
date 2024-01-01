@@ -30,6 +30,13 @@ int main() {
   auto y_train = dl_split[0][1];
   auto x_test = dl_split[1][0];
   auto y_test = dl_split[1][1];
-	Eigen::MatrixXf subset = x_train.block(0, 0, 10, 13);
-	std::cout << "X Train:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
+
+	Eigen::MatrixXf subset = x_train.block(0, 0, 5, 13);
+	std::cout << "X Train:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
+  subset = y_train.block(0, 0, 5, 1);
+	std::cout << "Y Train:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
+  subset = x_test.block(0, 0, 5, 13);
+  std::cout << "X Test:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
+  subset = y_test.block(0, 0, 5, 1);
+  std::cout << "Y Test:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
 }
