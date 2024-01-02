@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prompt the user for the directory
-echo "Enter the project directory:"
+echo "Enter the example directory:"
 read -r example_dir
 
 # Create a build directory

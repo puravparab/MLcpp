@@ -16,6 +16,7 @@ class Column_Summary {
 		std::type_index type;
 		float mean, sum, std_dev, max, min;
 		std::vector<uint32_t> null_index;
+		bool onehotencoding = false;
 		std::unordered_map<std::string, int>unique_strings;
 		Column_Summary(std::string name);	
 };
@@ -36,6 +37,7 @@ class Dataset {
 		void drop_null_rows();
 		void one_hot_encoding(std::string name);
 		std::vector<std::vector<dataType>> get_data();
+		std::vector<Column_Summary> get_column_summary();
 	private:
 		std::vector<std::vector<dataType>> data;
 		uint32_t length; // Number of rows

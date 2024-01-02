@@ -288,6 +288,7 @@ void Dataset::one_hot_encoding(std::string name){
 	// Add new columns to column_summary
 	for (auto it = column_summary[index].unique_strings.begin(); it != column_summary[index].unique_strings.end(); ++it){
 		Column_Summary col_summary(it->first);
+		col_summary.onehotencoding = true;
 		column_summary.push_back(col_summary);
 	}
 	// Populate columns with one hot encoding
@@ -319,3 +320,7 @@ std::vector<std::vector<dataType>> Dataset::get_data(){
 	return data;
 }
 
+// Get column summary
+std::vector<Column_Summary> Dataset::get_column_summary(){
+	return column_summary;
+}
