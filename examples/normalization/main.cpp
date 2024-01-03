@@ -18,16 +18,18 @@ int main(){
 	std::vector<uint32_t> shape = dataset.shape();
 	std::cout << "\nShape: (" << shape[0] << ", " << shape[1] <<  ")\n" << std::endl;
 
-  // Create dataloader
+  // create dataloader
 	Dataloader dl(dataset);
-	auto dl_split = dl.split(90, 10); 
+	auto dl_split = dl.split(90, 10);
   Eigen::MatrixXf subset = dl_split[0][0].block(0, 0, 5, 13);
 	std::cout << "X Train:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
 
-  // Normalize
+  // normalize using z_score
   Norm norm("z_score", dl);
   std::vector<Eigen::MatrixXf> norm_vec {dl_split[0][0]};
   norm.normalize(norm_vec);
+
+  // display results
   subset = norm_vec[0].block(0, 0, 5, 13);
 	std::cout << "Normalized X Train:\n" << subset.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
 }
