@@ -3,6 +3,6 @@
 
 #include <Eigen/Dense>
 
-float mse(Eigen::MatrixXf y_predict, Eigen::MatrixXf y);
+float mse(const Eigen::VectorXf& y_predict, const Eigen::VectorXf& y_true);
 
 #endif // LOSS_H
