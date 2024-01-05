@@ -3,7 +3,7 @@ Helpful tools to calculate loss.
 
 See [loss example](../../examples/loss/main.cpp)
 
-### Dataset.h
+### loss.h
 Import [loss.h](./loss.h) module
 ``` cpp
 #include "src/loss/loss.h"

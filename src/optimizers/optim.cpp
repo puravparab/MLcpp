@@ -2,10 +2,11 @@
 #include "optim.h"
 
 // gradient descent function:
-// X: matrix (examples x (params + 1)) (bias column in the end)
-// Y: vector containing true values
-// W: vector of weights (includes bias term at the end)
-// lr: learning rate
+// @param X: matrix (examples x (params + 1)) (bias column in the end)
+// @param Y: vector containing true values
+// @param W: vector of weights (includes bias term at the end)
+// @param lr: learning rate
+// @returns gd: vector of updated weights and bias
 Eigen::VectorXf gd(const Eigen::MatrixXf& X, const Eigen::VectorXf& Y, Eigen::VectorXf& W, float lr){
   Eigen::VectorXf y_pred = X * W;
   Eigen::VectorXf error = y_pred - Y;
@@ -16,12 +17,13 @@ Eigen::VectorXf gd(const Eigen::MatrixXf& X, const Eigen::VectorXf& Y, Eigen::Ve
 
 // full batch gradient descent:
 // run gradient descent on all training examples
-// X: matrix (examples x params)
-// Y: vector containing true values
-// W: vector of weights
-// B: bias term
-// lr: learning rate
-// loss_function: loss_function from "loss/loss.h"
+// @param X: matrix (examples x params)
+// @param Y: vector containing true values
+// @param W: vector of weights
+// @param B: bias term
+// @param lr: learning rate
+// @param loss_function: loss_function from "loss/loss.h"
+// @return: a vector containing weights, bias and loss
 Eigen::VectorXf batchgd(const Eigen::MatrixXf& X, const Eigen::VectorXf& Y, Eigen::VectorXf& W, float B, float lr, loss_function loss_function){
   Eigen::MatrixXf X_(X.rows(), X.cols() + 1);
   Eigen::VectorXf W_(X.cols() + 1);
@@ -36,8 +38,8 @@ Eigen::VectorXf batchgd(const Eigen::MatrixXf& X, const Eigen::VectorXf& Y, Eige
 
   // get new loss
   float loss = loss_function(Y_pred, Y);
-  
-  Eigen::VectorXf history(W_.rows() + 1); // capture weights, loss
+
+  Eigen::VectorXf history(W_.rows() + 1); // capture weights, bias, loss
   history << W_, loss;
   return history;
 }

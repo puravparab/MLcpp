@@ -3,7 +3,7 @@ Helpful tools to normalize input datasets.
 
 See [normalization example](../../examples/normalization/main.cpp)
 
-### Dataset.h
+### norm.h
 Import [norm.h](./norm.h) module
 ``` cpp
 #include "src/normalization/norm.h"

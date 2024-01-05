@@ -43,6 +43,7 @@ class Dataset {
 		uint32_t length; // Number of rows
 		uint16_t col_length; // Number of columns
 		uint16_t y_index; // Index of the training output
+		std::string y_index_name; // Name of the training column
 		std::vector<Column_Summary> column_summary; // holds summary of each column
 
 		void handle_null_values();

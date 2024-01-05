@@ -13,6 +13,7 @@ void linear_regression(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W
     steps = epochs;
   }
   Eigen::VectorXf history;
+	printf("\nTraining starting...\n");
   for (int i = 0; i < epochs; i++){
     history = batchgd(X, Y, W, B, lr, mse);
     if (i % steps == 10){
@@ -28,26 +29,40 @@ int main(){
   Dataset dataset;
 	dataset.read("../../../datasets/housing.csv"); // read dataset
 	dataset.set_output_column("median_house_value"); // set output column
+	dataset.drop_column("latitude");
+	dataset.drop_column("longitude");
+	dataset.drop_column("ocean_proximity");
 	dataset.drop_null_rows(); // drop null rows
-  dataset.one_hot_encoding("ocean_proximity"); // create one hot encoding for ocean_proximity
+
+	dataset.print_headers();
 
 	Dataloader dl(dataset); // create dataloader
 	auto dl_split = dl.split(90, 10);
+
   // normalize
   Norm norm("z_score", dl);
   std::vector<Eigen::MatrixXf> norm_vec {dl_split[0][0], dl_split[1][0]};
   norm.normalize(norm_vec);
 
- 
+	int scale = 100000; // scale down output values
   Eigen::MatrixXf x_train = norm_vec[0];
-  Eigen::MatrixXf y_train = dl_split[0][1] / 100000;
+  Eigen::MatrixXf y_train = dl_split[0][1] / scale;
   
   // run linear regression
+  float learning_rate = 0.0009;
+  int epochs = 5000;
   Eigen::VectorXf W = Eigen::VectorXf::Zero(x_train.cols());
   float B = 1;
-  linear_regression(x_train, y_train, W, B, 0.001, 4000);
+  linear_regression(x_train, y_train, W, B, learning_rate, epochs);
 
   // display results
 	std::cout << "\nWeights: \n" << W.format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << "\n" << std::endl;
-  std::cout << "\nBias: " << B << std::endl;
+  std::cout << "Bias: " << B << std::endl;
+
+	// test
+	Eigen::MatrixXf x_test = norm_vec[1]; // normalized test inputs
+	Eigen::MatrixXf y_test = dl_split[1][1] / scale;
+	Eigen::VectorXf test_pred = x_test * W + Eigen::VectorXf::Constant(x_test.rows(), B);
+	float test_loss = mse(test_pred, y_test);
+	std::cout << "Test loss: " << test_loss << std::endl;
 }

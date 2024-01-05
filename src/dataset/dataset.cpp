@@ -144,6 +144,7 @@ void Dataset::set_output_column(std::string name){
 		exit(1);
 	}
 	y_index = index;
+	y_index_name = column_summary[index].name;
 }
 
 // Get y index or output index
@@ -245,6 +246,7 @@ void Dataset::drop_column(std::string name){
 		data[i].erase(data[i].begin() + index);
 	}
 	col_length -= 1;
+	y_index = get_col_index(y_index_name); // update index of output column
 }
 
 // Remove every row that has null elements
