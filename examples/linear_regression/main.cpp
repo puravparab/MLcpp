@@ -38,6 +38,18 @@ void linear_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::Vector
   }
 }
 
+void linear_regression_sgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs, int batch){
+  Eigen::MatrixXf history;
+	printf("\nStochastic gradient descent\n");
+	printf("Training starting...\n");
+  for (int i = 0; i < epochs; i++){
+    history = sgd(X, Y, W, B, lr, mse, batch);
+    std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
+    W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
+    B = history(history.rows() - 1, history.cols() - 2);
+  }
+}
+
 int main(){
   Dataset dataset;
 	dataset.read("../../../datasets/housing.csv"); // read dataset
@@ -87,6 +99,16 @@ int main(){
 	test_pred = x_test * W_2 + Eigen::VectorXf::Constant(x_test.rows(), B_2);
 	float test_loss_2 = mse(test_pred, y_test);
 
+	// stochastic gradient descent
+	learning_rate = 0.0001;
+  epochs = 30;
+	batch = 64;
+  Eigen::VectorXf W_3 = Eigen::VectorXf::Zero(x_train.cols());
+	float B_3 = 1;
+	linear_regression_sgd(x_train, y_train, W_3, B_3, learning_rate, epochs, batch);
+	test_pred = x_test * W_3 + Eigen::VectorXf::Constant(x_test.rows(), B_3);
+	float test_loss_3 = mse(test_pred, y_test);
+
 	std::cout<< "\nBatch gradient descent:" << std::endl;
 	std::cout << "Weights: " << W_1.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
 	std::cout << "Bias: " << B_1 << std::endl;
@@ -96,4 +118,9 @@ int main(){
 	std::cout << "Weights: " << W_2.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
 	std::cout << "Bias: " << B_2 << std::endl;
 	std::cout << "Test loss: " << test_loss_2 << std::endl;
+
+	std::cout << "\nStochastic gradient descent:" << std::endl;
+	std::cout << "Weights: " << W_3.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
+	std::cout << "Bias: " << B_3 << std::endl;
+	std::cout << "Test loss: " << test_loss_3 << std::endl;
 }
