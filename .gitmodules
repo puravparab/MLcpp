@@ -4,3 +4,6 @@
 [submodule "include/autodiff"]
 	path = include/autodiff
 	url = https://github.com/autodiff/autodiff
+[submodule "include/json"]
+	path = include/json
+	url = https://github.com/nlohmann/json

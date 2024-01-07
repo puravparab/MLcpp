@@ -13,7 +13,7 @@ set(SOURCES
   "../../src/loss/loss.cpp"
   "../../src/optimizers/optim.cpp"
   "../../src/model_utils/utils.cpp"
-  "../../examples/linear_regression/main.cpp"
+  "../../examples/loading_models/main.cpp"
 )
 
 # specify the path to the test files

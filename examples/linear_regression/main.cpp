@@ -4,6 +4,7 @@
 #include "../../src/normalization/norm.h"
 #include "../../src/loss/loss.h"
 #include "../../src/optimizers/optim.h"
+#include "../../src/model_utils/utils.h"
 
 void linear_regression_bgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs){
   int steps;
@@ -88,6 +89,9 @@ int main(){
   linear_regression_bgd(x_train, y_train, W_1, B_1, learning_rate, epochs);
 	Eigen::VectorXf test_pred = x_test * W_1 + Eigen::VectorXf::Constant(x_test.rows(), B_1);
 	float test_loss_1 = mse(test_pred, y_test);
+	Eigen::VectorXf weights_1(W_1.size() + 1);
+	weights_1 << W_1, B_1;
+	save_weights(weights_1, W_1.size(), "json", "lr_bgd.json");
 
 	// mini-batch gradient descent
 	learning_rate = 0.003;
@@ -98,6 +102,9 @@ int main(){
 	linear_regression_mbgd(x_train, y_train, W_2, B_2, learning_rate, epochs, batch);
 	test_pred = x_test * W_2 + Eigen::VectorXf::Constant(x_test.rows(), B_2);
 	float test_loss_2 = mse(test_pred, y_test);
+	Eigen::VectorXf weights_2(W_2.size() + 1);
+	weights_2 << W_2, B_2;
+	save_weights(weights_2, W_2.size(), "json", "lr_mbgd.json");
 
 	// stochastic gradient descent
 	learning_rate = 0.0001;
@@ -108,6 +115,9 @@ int main(){
 	linear_regression_sgd(x_train, y_train, W_3, B_3, learning_rate, epochs, batch);
 	test_pred = x_test * W_3 + Eigen::VectorXf::Constant(x_test.rows(), B_3);
 	float test_loss_3 = mse(test_pred, y_test);
+	Eigen::VectorXf weights_3(W_3.size() + 1);
+	weights_3 << W_3, B_3;
+	save_weights(weights_3, W_3.size(), "json", "lr_sgd.json");
 
 	std::cout<< "\nBatch gradient descent:" << std::endl;
 	std::cout << "Weights: " << W_1.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
