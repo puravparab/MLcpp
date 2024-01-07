@@ -11,9 +11,10 @@ Run setup.sh and enter desired directory in examples/
 2. [Loss](./src/loss)
 3. [Normalization](./src/normalization/)
 4. [Optimizers](./src/optimizers/)
+5. [Model Utilities](./src/model_utils/)
 
 ## Examples
 1. [Linear regression](./examples/linear_regression/)
 
-## Support
+## ML Support
 Currently supports multivariate linear regression
