@@ -26,6 +26,7 @@ void Dataset::read(const std::string file_path){
 	std::istringstream header_stream(line);
 	std::string header;
 	while (std::getline(header_stream, header, ',')) {
+		header.erase(std::remove(header.begin(), header.end(), '\r' ), header.end());
 		Column_Summary col_summary(header);
 		column_summary.push_back(col_summary);
 	}
