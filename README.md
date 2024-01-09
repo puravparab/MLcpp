@@ -15,6 +15,7 @@ Run setup.sh and enter desired directory in examples/
 
 ## Examples
 1. [Linear regression](./examples/linear_regression/)
+1. [Logistic regression](./examples/logistic_regression/)
 
 ## ML Support
-Currently supports multivariate linear regression
+Currently supports multivariate linear regression and logistic regression

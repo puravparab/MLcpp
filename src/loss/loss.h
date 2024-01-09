@@ -5,4 +5,6 @@
 
 float mse(const Eigen::VectorXf& y_predict, const Eigen::VectorXf& y_true);
 
+float bce(const Eigen::VectorXf& y_predict, const Eigen::VectorXf& y_true);
+
 #endif // LOSS_H

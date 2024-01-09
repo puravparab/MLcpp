@@ -42,6 +42,23 @@ Eigen::VectorXf batchgd(const Eigen::MatrixXf& X, const Eigen::VectorXf& Y, Eige
   return history;
 }
 
+// batch gradient descent for logistic regression
+Eigen::VectorXf batchgd_logistic(const Eigen::MatrixXf& X, const Eigen::VectorXf& Y, Eigen::VectorXf& W, float B, float lr, loss_function loss_function){
+  Eigen::MatrixXf X_(X.rows(), X.cols() + 1);
+  Eigen::VectorXf W_(X.cols() + 1);
+  X_ << X, Eigen::VectorXf::Constant(X.rows(), B);
+  W_ << W, B;
+
+  W_ = gd(X_, Y, W_, lr); // get updated weights and bias
+  Eigen::VectorXf Y_pred = X_ * W_; // get predictions
+	Y_pred = 1.0 / (1.0 + (-Y_pred.array()).exp()); // get sigmoid
+  float loss = loss_function(Y_pred, Y); // get new loss
+
+  Eigen::VectorXf history(W_.rows() + 1); // capture weights, bias, loss
+  history << W_, loss;
+  return history;
+}
+
 // mini-batch gradient descent:
 // run gradient descent on batches
 // @param X: matrix (examples x params)

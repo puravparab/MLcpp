@@ -12,6 +12,7 @@ set(SOURCES
   "../../src/normalization/norm.cpp"
   "../../src/loss/loss.cpp"
   "../../src/optimizers/optim.cpp"
+  "../../src/model_utils/utils.cpp"
   "../../examples/logistic_regression/main.cpp"
 )
 
