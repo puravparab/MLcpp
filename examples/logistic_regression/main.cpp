@@ -11,6 +11,7 @@ Eigen::VectorXf sigmoid(Eigen::VectorXf X){
 	return 1.0 / (1.0 + (-X.array()).exp());
 }
 
+// runs logistic regression with batch gradient descent
 void logistic_regression_bgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs){
 	int steps;
   if (epochs > 10){steps = epochs / 10;}
@@ -29,6 +30,7 @@ void logistic_regression_bgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::Vecto
   std::cout << "Epoch: " << epochs << " " << "loss: " << history[history.rows() - 1] << std::endl;
 }
 
+// runs logistic regression with mini batch gradient descent
 void logistic_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs, int batch){
 	int steps;
   if (epochs > 10){ steps = epochs / 10;} 
@@ -42,6 +44,19 @@ void logistic_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::Vect
     	std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
 		}
 		W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
+    B = history(history.rows() - 1, history.cols() - 2);
+  }
+}
+
+// runs logistic regression with stochastic gradient descent
+void logistic_regression_sgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs, int batch){
+  Eigen::MatrixXf history;
+	printf("\nStochastic gradient descent\n");
+	printf("Training starting...\n");
+  for (int i = 0; i < epochs; i++){
+    history = sgd_logistic(X, Y, W, B, lr, mse, batch);
+    std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
+    W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
     B = history(history.rows() - 1, history.cols() - 2);
   }
 }
@@ -105,17 +120,18 @@ int main(){
 	weights_2 << W_2, B_2;
 	save_weights(weights_2, W_2.size(), "json", "mb_weights.json");
 
-	// stochastic gradient descent
-	// float learning_rate = 0.001;
-  // int epochs = 80;
-  // Eigen::VectorXf W_3 = Eigen::VectorXf::Zero(x_train.cols());
-  // float B_3 = 1;
-  // logistic_regression(x_train, y_train, W_3, B_3, learning_rate, epochs);
-	// Eigen::VectorXf test_pred = sigmoid(x_test * W_3 + Eigen::VectorXf::Constant(x_test.rows(), B_1));
-	// float test_loss_3 = bce(test_pred, y_test);
-	// Eigen::VectorXf weights_3(W_3.size() + 1);
-	// weights_3 << W_3, B_3;
-	// save_weights(weights_3, W_3.size(), "json", "s_weights.json");
+	//stochastic gradient descent
+	learning_rate = 0.01;
+	epochs = 80;
+	batch = 32;
+  Eigen::VectorXf W_3 = Eigen::VectorXf::Zero(x_train.cols());
+  float B_3 = 1;
+  logistic_regression_sgd(x_train, y_train, W_3, B_3, learning_rate, epochs, batch);
+	test_pred = sigmoid(x_test * W_3 + Eigen::VectorXf::Constant(x_test.rows(), B_1));
+	float test_loss_3 = bce(test_pred, y_test);
+	Eigen::VectorXf weights_3(W_3.size() + 1);
+	weights_3 << W_3, B_3;
+	save_weights(weights_3, W_3.size(), "json", "s_weights.json");
 
 	std::cout<< "\nBatch gradient descent:" << std::endl;
 	std::cout << "Weights: " << W_1.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;

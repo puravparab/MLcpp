@@ -6,6 +6,7 @@
 #include "../../src/optimizers/optim.h"
 #include "../../src/model_utils/utils.h"
 
+// runs linear regression with batch gradient descent
 void linear_regression_bgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs){
   int steps;
   if (epochs > 10){
@@ -27,6 +28,7 @@ void linear_regression_bgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorX
   std::cout << "Epoch: " << epochs << " " << "loss: " << history[history.rows() - 1] << std::endl;
 }
 
+// runs linear regression with mini batch gradient descent
 void linear_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs, int batch){
   Eigen::MatrixXf history;
 	printf("\nMini-Batch gradient descent\n");
@@ -39,6 +41,7 @@ void linear_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::Vector
   }
 }
 
+// runs linear regression with stochastic gradient descent
 void linear_regression_sgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs, int batch){
   Eigen::MatrixXf history;
 	printf("\nStochastic gradient descent\n");
