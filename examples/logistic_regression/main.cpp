@@ -13,11 +13,8 @@ Eigen::VectorXf sigmoid(Eigen::VectorXf X){
 
 void logistic_regression_bgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs){
 	int steps;
-  if (epochs > 10){
-    steps = epochs / 10;
-  } else {
-    steps = epochs;
-  }
+  if (epochs > 10){steps = epochs / 10;}
+	else {steps = epochs;}
 	Eigen::VectorXf history;
 	printf("\nBatch gradient descent\n");
 	printf("Training starting...\n");
@@ -40,9 +37,11 @@ void logistic_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::Vect
 	printf("\nMini-Batch gradient descent\n");
 	printf("Training starting...\n");
   for (int i = 0; i < epochs; i++){
-    history = mbgd(X, Y, W, B, lr, mse, batch);
-    std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
-    W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
+    history = mbgd_logistic(X, Y, W, B, lr, mse, batch);
+		if (i % steps == 10){
+    	std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
+		}
+		W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
     B = history(history.rows() - 1, history.cols() - 2);
   }
 }
@@ -94,16 +93,17 @@ int main(){
 	save_weights(weights_1, W_1.size(), "json", "b_weights.json");
 
 	// mini-batch gradient descent
-	// float learning_rate = 0.001;
-  // int epochs = 80;
-  // Eigen::VectorXf W_2 = Eigen::VectorXf::Zero(x_train.cols());
-  // float B_2 = 1;
-  // logistic_regression(x_train, y_train, W_2, B_2, learning_rate, epochs);
-	// Eigen::VectorXf test_pred = sigmoid(x_test * W_2 + Eigen::VectorXf::Constant(x_test.rows(), B_2));
-	// float test_loss_2 = bce(test_pred, y_test);
-	// Eigen::VectorXf weights_2(W_2.size() + 1);
-	// weights_2 << W_2, B_2;
-	// save_weights(weights_2, W_2.size(), "json", "mb_weights.json");
+	learning_rate = 0.01;
+	epochs = 400;
+	int batch = 32;
+  Eigen::VectorXf W_2 = Eigen::VectorXf::Zero(x_train.cols());
+  float B_2 = 1;
+  logistic_regression_mbgd(x_train, y_train, W_2, B_2, learning_rate, epochs, batch);
+	test_pred = sigmoid(x_test * W_2 + Eigen::VectorXf::Constant(x_test.rows(), B_2));
+	float test_loss_2 = bce(test_pred, y_test);
+	Eigen::VectorXf weights_2(W_2.size() + 1);
+	weights_2 << W_2, B_2;
+	save_weights(weights_2, W_2.size(), "json", "mb_weights.json");
 
 	// stochastic gradient descent
 	// float learning_rate = 0.001;
@@ -122,10 +122,10 @@ int main(){
 	std::cout << "Bias: " << B_1 << std::endl;
 	std::cout << "Test loss: " << test_loss_1 << std::endl;
 
-	// std::cout<< "\nMini-Batch gradient descent:" << std::endl;
-	// std::cout << "Weights: " << W_2.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
-	// std::cout << "Bias: " << B_2 << std::endl;
-	// std::cout << "Test loss: " << test_loss_2 << std::endl;
+	std::cout<< "\nMini-Batch gradient descent:" << std::endl;
+	std::cout << "Weights: " << W_2.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
+	std::cout << "Bias: " << B_2 << std::endl;
+	std::cout << "Test loss: " << test_loss_2 << std::endl;
 
 	// std::cout<< "\nStochastic gradient descent:" << std::endl;
 	// std::cout << "Weights: " << W_3.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
