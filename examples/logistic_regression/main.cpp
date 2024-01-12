@@ -50,13 +50,18 @@ void logistic_regression_mbgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::Vect
 
 // runs logistic regression with stochastic gradient descent
 void logistic_regression_sgd(Eigen::MatrixXf&X, Eigen::MatrixXf& Y, Eigen::VectorXf& W, float& B, float lr, int epochs, int batch){
-  Eigen::MatrixXf history;
+  int steps;
+  if (epochs > 10){ steps = epochs / 10;} 
+	else {steps = epochs;}
+	Eigen::MatrixXf history;
 	printf("\nStochastic gradient descent\n");
 	printf("Training starting...\n");
   for (int i = 0; i < epochs; i++){
     history = sgd_logistic(X, Y, W, B, lr, mse, batch);
-    std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
-    W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
+		if (i % steps == 10){
+    	std::cout << "Epoch: " << i + 1 << " " << "loss: " << history(history.rows() - 1, history.cols() - 1) << std::endl;
+		}
+		W = history.block(history.rows() - 1, 0, 1, W.rows()).transpose();
     B = history(history.rows() - 1, history.cols() - 2);
   }
 }
@@ -122,7 +127,7 @@ int main(){
 
 	//stochastic gradient descent
 	learning_rate = 0.01;
-	epochs = 80;
+	epochs = 2000;
 	batch = 32;
   Eigen::VectorXf W_3 = Eigen::VectorXf::Zero(x_train.cols());
   float B_3 = 1;
@@ -143,8 +148,8 @@ int main(){
 	std::cout << "Bias: " << B_2 << std::endl;
 	std::cout << "Test loss: " << test_loss_2 << std::endl;
 
-	// std::cout<< "\nStochastic gradient descent:" << std::endl;
-	// std::cout << "Weights: " << W_3.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
-	// std::cout << "Bias: " << B_3 << std::endl;
-	// std::cout << "Test loss: " << test_loss_3 << std::endl;
+	std::cout<< "\nStochastic gradient descent:" << std::endl;
+	std::cout << "Weights: " << W_3.transpose().format(Eigen::IOFormat(Eigen::StreamPrecision, 0, ", ", "\n", "[", "]")) << std::endl;
+	std::cout << "Bias: " << B_3 << std::endl;
+	std::cout << "Test loss: " << test_loss_3 << std::endl;
 }
